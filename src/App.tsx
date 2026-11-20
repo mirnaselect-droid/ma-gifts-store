@@ -25,17 +25,63 @@ function App(){
  const [search,setSearch]=useState('')
  const [showSearch,setShowSearch]=useState(false)
  const [dbStatus,setDbStatus]=useState<'loading'|'connected'|'offline'>('loading')
+ const [session,setSession]=useState<any>(null)
+ const [isAdmin,setIsAdmin]=useState(false)
+ const [authOpen,setAuthOpen]=useState(false)
+ const [authMode,setAuthMode]=useState<'signin'|'signup'>('signin')
+ const [authName,setAuthName]=useState('')
+ const [authEmail,setAuthEmail]=useState('')
+ const [authPassword,setAuthPassword]=useState('')
+ const [authMessage,setAuthMessage]=useState('')
+ const [authBusy,setAuthBusy]=useState(false)
  const isArabic=locale.startsWith('ar')
  const t=copy[locale as keyof typeof copy] ?? (isArabic?copy['ar-EG']:copy.en)
  const currency = locale==='ar-EG'?'EGP':locale==='ar-SA'?'SAR':locale==='ar-AE'?'AED':locale==='ar-KW'?'KWD':'EGP'
  useEffect(()=>{document.documentElement.lang=isArabic?'ar':locale;document.documentElement.dir=isArabic?'rtl':'ltr'},[locale,isArabic])
+ useEffect(()=>{
+  if(!supabase)return
+  let alive=true
+  supabase.auth.getSession().then(({data})=>{if(alive)setSession(data.session)})
+  const {data:{subscription}}=supabase.auth.onAuthStateChange((_event,next)=>{if(alive)setSession(next)})
+  return()=>{alive=false;subscription.unsubscribe()}
+ },[])
+ useEffect(()=>{
+  let alive=true
+  if(!supabase||!session?.user){setIsAdmin(false);return}
+  supabase.from('store_admins').select('user_id').eq('user_id',session.user.id).maybeSingle()
+   .then(({data,error})=>{if(alive)setIsAdmin(!error&&!!data)})
+  return()=>{alive=false}
+ },[session])
  useEffect(()=>{let alive=true;(async()=>{if(!supabase){setDbStatus('offline');return}const [c,p]=await Promise.all([supabase.from('categories').select('id,slug,name_ar,name_en,image_url').eq('is_active',true).order('sort_order'),supabase.from('products').select('id,slug,name_ar,name_en,description_ar,description_en,images,price,currency,is_featured').eq('is_active',true).order('sort_order')]);if(!alive)return;if(!c.error&&c.data?.length)setCategories(c.data);if(!p.error)setProducts(p.data??[]);setDbStatus(c.error||p.error?'offline':'connected')})();return()=>{alive=false}},[])
  const filtered=useMemo(()=>products.filter(p=>(p.name_ar+' '+p.name_en).toLowerCase().includes(search.toLowerCase())),[products,search])
  const money=(n:number,c:string)=>new Intl.NumberFormat(locale,{style:'currency',currency:c||currency,maximumFractionDigits:0}).format(n)
+ const submitAuth=async(e:React.FormEvent)=>{
+  e.preventDefault()
+  if(!supabase){setAuthMessage(isArabic?'الاتصال بقاعدة البيانات غير جاهز.':'Store connection is not configured.');return}
+  setAuthBusy(true);setAuthMessage('')
+  try{
+   if(authMode==='signup'){
+    const {data,error}=await supabase.auth.signUp({email:authEmail.trim(),password:authPassword,options:{data:{first_name:authName.trim()}}})
+    if(error)throw error
+    if(data.user && data.session){
+     await supabase.from('profiles').upsert({id:data.user.id,first_name:authName.trim()},{onConflict:'id'})
+     setAuthMessage(isArabic?'تم إنشاء الحساب بنجاح.':'Your account has been created.')
+     setAuthOpen(false)
+    }else setAuthMessage(isArabic?'راجعي بريدك الإلكتروني لتأكيد الحساب.':'Check your email to confirm your account.')
+   }else{
+    const {error}=await supabase.auth.signInWithPassword({email:authEmail.trim(),password:authPassword})
+    if(error)throw error
+    setAuthOpen(false);setAuthPassword('');setAuthMessage('')
+   }
+  }catch(err){setAuthMessage(err instanceof Error?err.message:(isArabic?'حصل خطأ، حاولي مرة تانية.':'Something went wrong. Please try again.'))}
+  finally{setAuthBusy(false)}
+ }
+ const signOut=async()=>{if(supabase)await supabase.auth.signOut();setIsAdmin(false);setAuthOpen(false)}
+
  return <div className="site-shell">
-  <div className="topbar"><div className="socials"><a aria-label="TikTok"><Music2/></a><a aria-label="WhatsApp"><MessageCircle/></a><a aria-label="Instagram"><Instagram/></a><a aria-label="Facebook"><Facebook/></a></div><div className="top-love">♥ Made with Love · Just for You ♥</div><div className="top-links"><a href="#track"><Truck size={15}/>{t.track}</a><a href="#account"><UserRound size={15}/>{t.login}</a></div></div>
+  <div className="topbar"><div className="socials"><a aria-label="TikTok"><Music2/></a><a aria-label="WhatsApp"><MessageCircle/></a><a aria-label="Instagram"><Instagram/></a><a aria-label="Facebook"><Facebook/></a></div><div className="top-love">♥ Made with Love · Just for You ♥</div><div className="top-links"><a href="#track"><Truck size={15}/>{t.track}</a><a href="#account" onClick={e=>{e.preventDefault();setAuthOpen(true)}}><UserRound size={15}/>{session?.user?.email||t.login}</a></div></div>
   <header className="main-header"><button className="icon-btn mobile-menu" onClick={()=>setMenuOpen(true)} aria-label="Open menu"><Menu/></button><button className="cart-btn" onClick={()=>setCart(v=>v+0)} aria-label="Shopping bag"><ShoppingBag/><b>{cart}</b></button><div className="search-box"><Search size={18}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder={t.search}/></div><a className="brand" href="#"><span className="brand-mark">🎁</span><span><strong>M&A Gifts</strong><small>Made with Love, Just for You ♡</small></span></a><nav className="desktop-nav"><a className="active" href="#home">{t.home}</a><a href="#products">{t.products}<ChevronDown/></a><a href="#categories">{t.occasions}<ChevronDown/></a><a href="#about">{t.about}</a><a href="#contact">{t.contact}</a></nav><select aria-label="Language" className="language" value={locale} onChange={e=>setLocale(e.target.value)}>{localeNames.map(([v,n])=><option key={v} value={v}>{n}</option>)}</select></header>
-  {menuOpen&&<div className="drawer-backdrop" onClick={()=>setMenuOpen(false)}><aside className="drawer" onClick={e=>e.stopPropagation()}><button className="icon-btn close" onClick={()=>setMenuOpen(false)}><X/></button><div className="drawer-brand">M&A Gifts<small>Made with Love, Just for You</small></div>{[t.home,t.products,t.occasions,t.about,t.contact,t.track,t.login].map((v,i)=><a key={v} href={['#home','#products','#categories','#about','#contact','#track','#account'][i]} onClick={()=>setMenuOpen(false)}>{v}</a>)}</aside></div>}
+  {menuOpen&&<div className="drawer-backdrop" onClick={()=>setMenuOpen(false)}><aside className="drawer" onClick={e=>e.stopPropagation()}><button className="icon-btn close" onClick={()=>setMenuOpen(false)}><X/></button><div className="drawer-brand">M&A Gifts<small>Made with Love, Just for You</small></div>{[t.home,t.products,t.occasions,t.about,t.contact,t.track,t.login].map((v,i)=><a key={v} href={['#home','#products','#categories','#about','#contact','#track','#account'][i]} onClick={e=>{setMenuOpen(false);if(i===6){e.preventDefault();setAuthOpen(true)}}}>{v}</a>)}</aside></div>}
   <main id="home">
    <section className="hero"><div className="hero-flower">✿</div><div className="hero-copy"><span className="eyebrow">M&A GIFTS · A LITTLE BOX OF HAPPINESS</span><h1>{t.hero}</h1><p>{t.sub}</p><a className="gold-btn" href="#products">{t.shop}<span>←</span></a><div className="hero-caption">M&A Gifts <i>—</i> Made with Love, Just for You</div></div><div className="gift-scene"><div className="gift gift-large"><span></span></div><div className="gift gift-small"><span></span></div><div className="gift gift-cream"><span></span></div><div className="ribbon-loop"></div></div><div className="hero-dots"><i className="selected"/><i/><i/><i/></div></section>
    <section className="category-section" id="categories"><div className="section-heading"><span></span><h2>♡ {t.categories} ♡</h2><span></span></div><div className="category-row">{categories.map((c,i)=><a className="category-card" href="#products" key={c.id}>{c.image_url?<img src={c.image_url} alt=""/>:<div className={'category-art art-'+i}><Gift/></div>}<strong>{isArabic?c.name_ar:c.name_en}</strong></a>)}</div></section>
@@ -44,6 +90,20 @@ function App(){
    <section className="benefits"><div><Gift/><span>{t.benefit1}</span></div><div><ShieldCheck/><span>{t.benefit2}</span></div><div><Truck/><span>{t.benefit3}</span></div><div><Headphones/><span>{t.benefit4}</span></div></section>
   </main>
   <footer id="contact"><div className="footer-brand"><span className="brand-mark">🎁</span><strong>M&A Gifts</strong><small>Made with Love, Just for You ♡</small></div><p>{t.footer}</p><div className="footer-links"><a href="#about">{t.about}</a><a href="#contact">{t.contact}</a><a href="#track">{t.track}</a></div><small>© {new Date().getFullYear()} M&A Gifts. Founded & owned by Mirna Mamdouh.</small><small className="credit">Built with the assistance of ChatGPT and OpenAI tools.</small><span className="db-indicator">{dbStatus==='connected'?'● Live store data':dbStatus==='loading'?'Connecting…':'Preview mode'}</span></footer>
+  {authOpen&&<div className="drawer-backdrop" role="presentation" onClick={()=>setAuthOpen(false)}><section className="auth-modal" role="dialog" aria-modal="true" aria-label={isArabic?'حساب العميل':'Customer account'} onClick={e=>e.stopPropagation()}>
+   <button className="icon-btn close" onClick={()=>setAuthOpen(false)} aria-label="Close"><X/></button>
+   <h2>{authMode==='signin'?(isArabic?'تسجيل الدخول':'Sign in'):(isArabic?'إنشاء حساب جديد':'Create account')}</h2>
+   <p>{isArabic?'أهلاً بيكي في M&A Gifts':'Welcome to M&A Gifts'}</p>
+   <form onSubmit={submitAuth}>
+    {authMode==='signup'&&<label>{isArabic?'الاسم':'Name'}<input required value={authName} onChange={e=>setAuthName(e.target.value)} autoComplete="name"/></label>}
+    <label>{isArabic?'البريد الإلكتروني':'Email'}<input required type="email" value={authEmail} onChange={e=>setAuthEmail(e.target.value)} autoComplete="email"/></label>
+    <label>{isArabic?'كلمة المرور':'Password'}<input required minLength={6} type="password" value={authPassword} onChange={e=>setAuthPassword(e.target.value)} autoComplete={authMode==='signin'?'current-password':'new-password'}/></label>
+    {authMessage&&<p className="auth-message" role="status">{authMessage}</p>}
+    <button className="add-btn auth-submit" disabled={authBusy}>{authBusy?(isArabic?'جاري التنفيذ…':'Please wait…'):(authMode==='signin'?(isArabic?'دخول':'Sign in'):(isArabic?'إنشاء الحساب':'Create account'))}</button>
+   </form>
+   <button className="auth-switch" onClick={()=>{setAuthMode(authMode==='signin'?'signup':'signin');setAuthMessage('')}}>{authMode==='signin'?(isArabic?'مفيش حساب؟ أنشئي حساب جديد':'New here? Create an account'):(isArabic?'عندك حساب؟ سجلي الدخول':'Already registered? Sign in')}</button>
+  </section></div>}
+  {session?.user&&<div className="account-chip"><span>{session.user.email}</span>{isAdmin&&<a href="#admin">{isArabic?'لوحة التحكم':'Admin dashboard'}</a>}<button onClick={signOut}>{isArabic?'تسجيل الخروج':'Sign out'}</button></div>}
   <a className="support-float" href="#contact" aria-label="Customer support"><Headphones/></a>
  </div>
 }
