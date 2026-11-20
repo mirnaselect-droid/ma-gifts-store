@@ -11,10 +11,10 @@ const fallbackCategories:Category[] = [
   {id:'3',slug:'mens-gifts',name_ar:'هدايا رجالية',name_en:"Gifts for Him",image_url:null},
   {id:'4',slug:'beauty-care',name_ar:'العناية والجمال',name_en:'Beauty & Self-care',image_url:null},
   {id:'5',slug:'custom-gifts',name_ar:'تصميم هدية حسب الطلب',name_en:'Custom Gift Design',image_url:null},
-  {id:'6',slug:'original-gifts',name_ar:'منتجات أصلية',name_en:'Original Products',image_url:null},
-  {id:'7',slug:'high-copy-gifts',name_ar:'منتجات هاي كوبي',name_en:'High-Copy Products',image_url:null},
-  {id:'8',slug:'mirror-gifts',name_ar:'منتجات ميرور',name_en:'Mirror-Quality Products',image_url:null},
-  {id:'9',slug:'copy-gifts',name_ar:'منتجات كوبي',name_en:'Copy Products',image_url:null},
+  {id:'6',slug:'original-gifts',name_ar:'منتجات Original',name_en:'Original Products',image_url:null},
+  {id:'7',slug:'high-copy-gifts',name_ar:'منتجات High Copy',name_en:'High-Copy Products',image_url:null},
+  {id:'8',slug:'mirror-gifts',name_ar:'منتجات Mirror',name_en:'Mirror Products',image_url:null},
+  {id:'9',slug:'copy-gifts',name_ar:'منتجات Copy',name_en:'Copy Products',image_url:null},
   {id:'10',slug:'budget-gifts',name_ar:'منتجات اقتصادية',name_en:'Affordable Products',image_url:null},
 ]
 const localeNames:[string,string][]=[['ar-EG','العربية'],['en','English'],['ar-SA','السعودية'],['ar-AE','الإمارات'],['ar-KW','الكويت'],['tr','Türkçe'],['zh-CN','中文'],['ko','한국어'],['fr','Français'],['de','Deutsch'],['es','Español']]
