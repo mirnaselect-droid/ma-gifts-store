@@ -23,6 +23,7 @@ const copy = {
 'en':{home:'Home',products:'Shop',occasions:'Occasions',about:'Our Story',contact:'Contact',login:'Sign in',track:'Track order',search:'Find your perfect gift...',hero:'Every gift tells a story of love',sub:'Thoughtfully chosen gifts, made personal just for them.',shop:'Shop now',categories:'Shop by category',latest:'Gifts for every style',empty:'Beautiful gifts are coming soon',emptySub:'We are carefully preparing our first collection.',benefit1:'Premium wrapping',benefit2:'Secure checkout',benefit3:'Regional delivery',benefit4:'Friendly support',custom:'A gift made your way',customSub:'Choose the products, colors and little details to create a gift that feels personal.',start:'Create your gift',footer:'Made with love, just for you',all:'All gifts'}
 } as const
 function App(){
+ const isOwnerRoute=window.location.pathname.replace(/\/+$/,'')==='/owner'
  const [locale,setLocale]=useState('ar-EG')
  const [categories,setCategories]=useState<Category[]>(fallbackCategories)
  const [products,setProducts]=useState<Product[]>([])
@@ -37,6 +38,8 @@ function App(){
  const [dbStatus,setDbStatus]=useState<'loading'|'connected'|'offline'>('loading')
  const [session,setSession]=useState<any>(null)
  const [isAdmin,setIsAdmin]=useState(false)
+ const [adminCheckDone,setAdminCheckDone]=useState(false)
+ const [ownerAccessMessage,setOwnerAccessMessage]=useState('')
  const [adminOpen,setAdminOpen]=useState(false)
  const [authOpen,setAuthOpen]=useState(false)
  const [authMode,setAuthMode]=useState<'signin'|'signup'>('signin')
@@ -61,11 +64,19 @@ function App(){
  },[])
  useEffect(()=>{
   let alive=true
-  if(!supabase||!session?.user){setIsAdmin(false);return}
+  if(!supabase||!session?.user){setIsAdmin(false);setAdminCheckDone(true);return}
+  setAdminCheckDone(false)
   supabase.from('store_admins').select('user_id').eq('user_id',session.user.id).maybeSingle()
-   .then(({data,error})=>{if(alive)setIsAdmin(!error&&!!data)})
+   .then(({data,error})=>{if(alive){setIsAdmin(!error&&!!data);setAdminCheckDone(true)}})
   return()=>{alive=false}
  },[session])
+ useEffect(()=>{
+  if(!isOwnerRoute)return
+  if(!session?.user){setAdminOpen(false);setAuthOpen(true);return}
+  if(!adminCheckDone)return
+  if(isAdmin){setOwnerAccessMessage('');setAuthOpen(false);setAdminOpen(true)}
+  else{setAdminOpen(false);setAuthOpen(false);setOwnerAccessMessage('الحساب الحالي غير مسجل كحساب مالكة. سجّلي الدخول بالحساب المصرح له بإدارة المتجر.')}
+ },[isOwnerRoute,session,isAdmin,adminCheckDone])
  useEffect(()=>{let alive=true;(async()=>{if(!supabase){setDbStatus('offline');return}const [c,p]=await Promise.all([supabase.from('categories').select('id,slug,name_ar,name_en,image_url').eq('is_active',true).order('sort_order'),supabase.from('products').select('id,slug,name_ar,name_en,description_ar,description_en,images,price,currency,is_featured').eq('is_active',true).order('sort_order')]);if(!alive)return;if(!c.error&&c.data?.length)setCategories(c.data);if(!p.error)setProducts(p.data??[]);setDbStatus(c.error||p.error?'offline':'connected')})();return()=>{alive=false}},[])
  const filtered=useMemo(()=>products.filter(p=>(p.name_ar+' '+p.name_en).toLowerCase().includes(search.toLowerCase())),[products,search])
  const categoryLabel=(name:string)=>name.replace(/بوكسات|بوكس/gi,'هدايا').replace(/Gift Boxes|Gift Box/gi,'Gifts').replace(/Boxes|Box/gi,'Gifts')
@@ -154,7 +165,8 @@ function App(){
    <button className="auth-switch" onClick={()=>{setAuthMode(authMode==='signin'?'signup':'signin');setAuthMessage('')}}>{authMode==='signin'?(isArabic?'مفيش حساب؟ أنشئي حساب جديد':'New here? Create an account'):(isArabic?'عندك حساب؟ سجلي الدخول':'Already registered? Sign in')}</button>
   </section></div>}
   {session?.user&&<div className="account-chip"><span>{session.user.email}</span>{isAdmin&&<><span>{isArabic?'صلاحية المالكة مؤكدة':'Owner access verified'}</span><button onClick={()=>setAdminOpen(true)}>{isArabic?'لوحة تحكم المالكة':'Owner dashboard'}</button></>}<button onClick={signOut}>{isArabic?'تسجيل الخروج':'Sign out'}</button></div>}
-  {adminOpen&&isAdmin&&<AdminDashboard email={session?.user?.email} onClose={()=>setAdminOpen(false)}/>}
+  {isOwnerRoute&&ownerAccessMessage&&<div className="owner-access-message" role="alert"><h2>تعذر فتح لوحة المالكة</h2><p>{ownerAccessMessage}</p><a href="/">العودة إلى المتجر</a></div>}
+  {adminOpen&&isAdmin&&<AdminDashboard email={session?.user?.email} onClose={()=>{setAdminOpen(false);if(isOwnerRoute)window.location.href='/'}}/>}
   <a className="support-float" href="#contact" aria-label="Customer support"><Headphones/></a>
  </div>
 }
