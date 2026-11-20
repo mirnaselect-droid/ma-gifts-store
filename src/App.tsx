@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { Search, ShoppingBag, UserRound, Truck, Heart, Headphones, Menu, X, ChevronDown, Instagram, Facebook, Music2, MessageCircle, Sparkles, Gift, ShieldCheck, PackageCheck } from 'lucide-react'
 import { isSupabaseConfigured, supabase } from './lib/supabase'
 
@@ -55,7 +55,7 @@ function App(){
  useEffect(()=>{let alive=true;(async()=>{if(!supabase){setDbStatus('offline');return}const [c,p]=await Promise.all([supabase.from('categories').select('id,slug,name_ar,name_en,image_url').eq('is_active',true).order('sort_order'),supabase.from('products').select('id,slug,name_ar,name_en,description_ar,description_en,images,price,currency,is_featured').eq('is_active',true).order('sort_order')]);if(!alive)return;if(!c.error&&c.data?.length)setCategories(c.data);if(!p.error)setProducts(p.data??[]);setDbStatus(c.error||p.error?'offline':'connected')})();return()=>{alive=false}},[])
  const filtered=useMemo(()=>products.filter(p=>(p.name_ar+' '+p.name_en).toLowerCase().includes(search.toLowerCase())),[products,search])
  const money=(n:number,c:string)=>new Intl.NumberFormat(locale,{style:'currency',currency:c||currency,maximumFractionDigits:0}).format(n)
- const submitAuth=async(e:React.FormEvent)=>{
+ const submitAuth=async(e:FormEvent)=>{
   e.preventDefault()
   if(!supabase){setAuthMessage(isArabic?'الاتصال بقاعدة البيانات غير جاهز.':'Store connection is not configured.');return}
   setAuthBusy(true);setAuthMessage('')
