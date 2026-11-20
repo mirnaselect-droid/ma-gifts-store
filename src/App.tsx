@@ -149,7 +149,7 @@ function App(){
    <button className="auth-switch" onClick={()=>{setAuthMode(authMode==='signin'?'signup':'signin');setAuthMessage('')}}>{authMode==='signin'?(isArabic?'مفيش حساب؟ أنشئي حساب جديد':'New here? Create an account'):(isArabic?'عندك حساب؟ سجلي الدخول':'Already registered? Sign in')}</button>
   </section></div>}
   {session?.user&&<div className="account-chip"><span>{session.user.email}</span>{isAdmin&&<><span>{isArabic?'صلاحية المالكة مؤكدة':'Owner access verified'}</span><button onClick={()=>setAdminOpen(true)}>{isArabic?'لوحة تحكم المالكة':'Owner dashboard'}</button></>}<button onClick={signOut}>{isArabic?'تسجيل الخروج':'Sign out'}</button></div>}
-  {adminOpen&&isAdmin&&<AdminDashboard email={session?.user?.email} onClose={()=>setAdminOpen(false)}/ >}
+  {adminOpen&&isAdmin&&<AdminDashboard email={session?.user?.email} onClose={()=>setAdminOpen(false)}/>}
   <a className="support-float" href="#contact" aria-label="Customer support"><Headphones/></a>
  </div>
 }
