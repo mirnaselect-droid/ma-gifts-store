@@ -238,3 +238,73 @@ footer{min-height:180px;background:radial-gradient(ellipse at 50% 0,#78243f,#350
  .product-grid{gap:6px}
  .product-card .add-btn{font-size:8px;padding:6px}
 }
+
+
+/* M&A Gifts owner dashboard */
+.ma-admin{position:fixed;inset:0;z-index:1000;display:flex;background:#f7f3f1;color:#39212a;font-family:inherit;overflow:hidden}
+.ma-admin-side{width:250px;flex:0 0 250px;background:#fff;border-left:1px solid #eadfe2;display:flex;flex-direction:column;padding:22px 15px;overflow:auto;z-index:3}
+.ma-admin-brand{display:flex;align-items:center;gap:10px;padding:2px 8px 25px;border-bottom:1px solid #f0e8e9}
+.ma-admin-logo{width:39px;height:39px;border-radius:12px;background:linear-gradient(145deg,#67172f,#3b0a1b);color:#e7c99e;display:grid;place-items:center}
+.ma-admin-brand b{display:block;color:#54142c;font:700 18px Georgia,serif}
+.ma-admin-brand small{display:block;color:#a78b91;font-size:8px;letter-spacing:1.2px;margin-top:3px}
+.ma-admin-side-label{font-size:10px;color:#b09ba0;padding:22px 10px 10px}
+.ma-admin-side nav{display:grid;gap:4px}
+.ma-admin-side nav button{height:41px;border:0;border-radius:9px;background:transparent;color:#775e66;display:flex;align-items:center;gap:11px;padding:0 11px;text-align:right;font:inherit;font-size:12px;cursor:pointer}
+.ma-admin-side nav button.active{background:#f7e9ec;color:#68182f;font-weight:700;box-shadow:inset -3px 0 #8c2946}
+.ma-admin-side nav button i{margin-right:auto;width:6px;height:6px;border-radius:50%;background:#c5a16f}
+.ma-admin-side-bottom{margin-top:auto;background:#faf4f0;border:1px solid #f0e3d9;border-radius:11px;padding:12px;color:#6d283e;display:grid;grid-template-columns:20px 1fr;align-items:center;gap:5px;font-size:11px}
+.ma-admin-side-bottom small{grid-column:2;color:#9b858a;font-size:9px}
+.ma-admin-exit{margin-top:12px;border:1px solid #eadde0;background:white;border-radius:9px;padding:11px;color:#70223a;font:inherit;font-size:11px;cursor:pointer}
+.ma-admin-main{min-width:0;flex:1;overflow:auto}
+.ma-admin-top{height:66px;background:#fff;border-bottom:1px solid #eee5e6;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:2}
+.ma-admin-breadcrumb{font-size:12px;color:#806a71}.ma-admin-breadcrumb span{color:#c8b8bb;padding:0 8px}
+.ma-admin-top-actions{display:flex;align-items:center;gap:18px}.ma-admin-top-actions>button{border:0;background:#faf5f5;border-radius:9px;width:36px;height:36px;color:#704254}
+.ma-admin-user{display:flex;align-items:center;gap:9px}.ma-admin-avatar{width:34px;height:34px;border-radius:50%;background:#f1dfd8;color:#6b1b35;display:grid;place-items:center;font-weight:700}
+.ma-admin-user b,.ma-admin-user small{display:block}.ma-admin-user b{font-size:11px}.ma-admin-user small{font-size:9px;color:#9c858b;margin-top:2px;max-width:160px;overflow:hidden;text-overflow:ellipsis;direction:ltr}
+.ma-admin-content{max-width:1500px;margin:auto;padding:28px}
+.ma-admin-welcome{display:flex;justify-content:space-between;align-items:center;margin-bottom:23px;gap:12px}
+.ma-admin-kicker{font-size:9px;letter-spacing:1.5px;color:#b18c6b}
+.ma-admin-welcome h1{font-size:23px;color:#4d142b;margin:7px 0}
+.ma-admin-welcome p{font-size:11px;color:#927d83;margin:0}
+.ma-admin-date{display:flex;align-items:center;gap:7px;border:1px solid #e9dce0;background:#fff;padding:9px 13px;border-radius:9px;color:#6b263d;font-size:10px}
+.ma-admin-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:16px}
+.ma-admin-stat{position:relative;min-height:112px;background:#fff;border:1px solid #eee4e6;border-radius:13px;padding:16px;overflow:hidden}
+.ma-admin-stat>span{display:block;font-size:11px;color:#826e74}.ma-admin-stat>b{display:block;font-size:23px;color:#4b1429;margin:10px 0 4px}.ma-admin-stat>small{font-size:9px;color:#ad999d}
+.ma-admin-stat>i{position:absolute;left:15px;top:15px;width:33px;height:33px;border-radius:10px;background:#f7eaed;color:#8b3850;display:grid;place-items:center}.ma-admin-stat>i svg{width:17px}
+.ma-admin-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:14px;margin-bottom:15px}
+.ma-admin-panel{background:#fff;border:1px solid #eee4e6;border-radius:13px;padding:18px;min-width:0}
+.ma-admin-panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ma-admin-panel-head h2{font-size:13px;color:#4d182d;margin:0 0 5px}.ma-admin-panel-head p{font-size:9px;color:#a18c92;margin:0}
+.ma-admin-panel-head select{border:1px solid #eadfe2;background:#fff;border-radius:7px;padding:7px 10px;color:#6e4a56;font:inherit;font-size:10px}
+.ma-admin-empty-chart{height:210px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;color:#9d7e88}
+.ma-admin-empty-chart svg{width:31px;height:31px;color:#b68c77}.ma-admin-empty-chart b{font-size:11px;color:#775460}.ma-admin-empty-chart span{font-size:9px;color:#ae9da1}
+.ma-admin-shortcut{width:100%;display:flex;align-items:center;gap:10px;padding:13px 3px;border:0;border-bottom:1px solid #f3edef;background:#fff;color:#7b5b65;text-align:right;font:inherit;font-size:10px;cursor:pointer}
+.ma-admin-shortcut>svg:first-child{color:#8e4258}.ma-admin-shortcut>svg:last-child{margin-right:auto;color:#b69c9f}.ma-admin-shortcut:last-child{border-bottom:0}
+.ma-admin-recent{margin-bottom:15px}
+.ma-admin-panel-head>button{border:1px solid #eadde1;background:#fff;border-radius:7px;color:#75223c;padding:7px 10px;font:inherit;font-size:9px;cursor:pointer}
+.ma-admin-empty-table{min-height:145px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:#9d8790}
+.ma-admin-empty-table svg{color:#b48c79;width:25px;height:25px}.ma-admin-empty-table span{font-size:11px;color:#74535f}.ma-admin-empty-table small{font-size:9px}
+.ma-admin-module{min-height:390px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:35px}
+.ma-admin-module-icon{width:65px;height:65px;border-radius:18px;background:#f8e9ec;color:#792640;display:grid;place-items:center;margin-bottom:15px}
+.ma-admin-module h2{font-size:20px;color:#51172d;margin:0 0 9px}.ma-admin-module p{font-size:12px;line-height:1.9;color:#8b747c;max-width:480px}
+.ma-admin-module-note{margin-top:18px;padding:12px 15px;border-radius:9px;background:#fbf5ed;color:#916c4b;font-size:10px;display:flex;align-items:center;gap:8px}
+.ma-admin-footer{display:flex;justify-content:space-between;color:#ad9b9f;font-size:9px;padding:12px 2px 0}
+.ma-admin-menu,.ma-admin-mobile-close,.ma-admin-scrim{display:none}
+@media(max-width:900px){.ma-admin-side{width:220px;flex-basis:220px}.ma-admin-content{padding:20px}.ma-admin-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.ma-admin-grid{grid-template-columns:1fr}.ma-admin-shortcuts{display:grid;grid-template-columns:1fr 1fr;column-gap:15px}}
+@media(max-width:650px){
+ .ma-admin-side{position:fixed;right:0;top:0;bottom:0;width:min(82vw,290px);transform:translateX(105%);transition:transform .2s;box-shadow:-10px 0 30px #26091622}
+ .ma-admin-side.is-open{transform:translateX(0)}
+ .ma-admin-scrim{display:block;position:fixed;inset:0;background:#18071077;border:0;z-index:2}
+ .ma-admin-mobile-close{display:block;margin-right:auto;border:0;background:transparent;color:#78465a}
+ .ma-admin-top{height:56px;padding:0 12px}.ma-admin-menu{display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:8px;background:#f8edf0;color:#70233d}
+ .ma-admin-breadcrumb{font-size:10px;margin-left:auto;margin-right:8px}
+ .ma-admin-top-actions{gap:8px}.ma-admin-top-actions>button{width:31px;height:31px}.ma-admin-user{gap:5px}.ma-admin-user>span:nth-child(2){display:none}
+ .ma-admin-content{padding:16px 11px}.ma-admin-welcome{align-items:flex-start;flex-direction:column;margin-bottom:15px}
+ .ma-admin-welcome h1{font-size:19px}.ma-admin-welcome p{font-size:10px;line-height:1.7}
+ .ma-admin-date{font-size:9px;padding:7px 9px}
+ .ma-admin-stats{gap:8px}.ma-admin-stat{min-height:100px;padding:12px}.ma-admin-stat>span{font-size:10px}.ma-admin-stat>b{font-size:20px;margin:8px 0 3px}.ma-admin-stat>small{font-size:8px}.ma-admin-stat>i{left:9px;top:9px;width:27px;height:27px}
+ .ma-admin-panel{padding:13px}.ma-admin-panel-head h2{font-size:12px}.ma-admin-panel-head p{font-size:8px}
+ .ma-admin-empty-chart{height:170px}.ma-admin-shortcuts{grid-template-columns:1fr}.ma-admin-shortcut{padding:12px 2px}
+ .ma-admin-module{min-height:340px;padding:24px 15px}.ma-admin-module h2{font-size:17px}.ma-admin-module p{font-size:11px}
+ .ma-admin-module-note{font-size:9px;line-height:1.7}
+}
