@@ -14,6 +14,15 @@ const fallbackCategories:Category[] = [
  {id:'7',slug:'mirror-products',name_ar:'منتجات Mirror',name_en:'Mirror Products',image_url:null,parent_id:'5'},
  {id:'8',slug:'high-copy-products',name_ar:'منتجات High Copy',name_en:'High-Copy Products',image_url:null,parent_id:'5'},
  {id:'9',slug:'copy-products',name_ar:'منتجات Copy',name_en:'Copy Products',image_url:null,parent_id:'5'},
+ {id:'10',slug:'local-brands',name_ar:'منتجات Local Brands',name_en:'Local Brands',image_url:null,parent_id:'5'},
+ {id:'11',slug:'accessories',name_ar:'الإكسسوارات',name_en:'Accessories',image_url:null,parent_id:'5'},
+ {id:'12',slug:'stainless-steel-accessories',name_ar:'إكسسوارات ستانلس ستيل',name_en:'Stainless Steel Accessories',image_url:null,parent_id:'5'},
+ {id:'13',slug:'fashion-clothing',name_ar:'الأزياء والملابس',name_en:'Fashion & Clothing',image_url:null,parent_id:'5'},
+ {id:'14',slug:'fashion-original-brands',name_ar:'براندات أصلية',name_en:'Original Brands',image_url:null,parent_id:'13'},
+ {id:'15',slug:'fashion-mirror',name_ar:'Mirror',name_en:'Mirror',image_url:null,parent_id:'13'},
+ {id:'16',slug:'fashion-high-copy',name_ar:'High Copy',name_en:'High Copy',image_url:null,parent_id:'13'},
+ {id:'17',slug:'fashion-copy',name_ar:'Copy',name_en:'Copy',image_url:null,parent_id:'13'},
+ {id:'18',slug:'fashion-local-brands',name_ar:'Local Brands',name_en:'Local Brands',image_url:null,parent_id:'13'},
 ]
 const localeNames:[string,string][]=[['ar-EG','العربية'],['en','English'],['ar-SA','السعودية'],['ar-AE','الإمارات'],['ar-KW','الكويت'],['tr','Türkçe'],['zh-CN','中文'],['ko','한국어'],['fr','Français'],['de','Deutsch'],['es','Español']]
 const copy = {
@@ -88,7 +97,8 @@ function App(){
  const routeSlug=decodeURIComponent(currentPath.split('/').filter(Boolean).pop()||'')
  const routeCategory=categories.find(c=>c.slug===routeSlug && currentPath.startsWith('/category/'))||null
  const routeProduct=products.find(p=>p.slug===routeSlug && currentPath.startsWith('/product/'))||null
- const routeProducts=routeCategory?products.filter(p=>p.category_id===routeCategory.id||categories.some(c=>c.parent_id===routeCategory.id&&p.category_id===c.id)):products
+ const routeCategoryIds=routeCategory?[routeCategory.id,...categories.filter(c=>c.parent_id===routeCategory.id).map(c=>c.id),...categories.filter(c=>categories.some(p=>p.parent_id===routeCategory.id&&p.id===c.parent_id)).map(c=>c.id)]:[]
+ const routeProducts=routeCategory?products.filter(p=>routeCategoryIds.includes(p.category_id||'')):products
  const isHomeRoute=currentPath==='/'||currentPath==='/index.html'
  const isShopRoute=currentPath==='/shop'||currentPath==='/occasions'
  const routePageTitle=currentPath==='/about'?(isArabic?'من نحن':'Our Story'):currentPath==='/contact'?(isArabic?'تواصلي معنا':'Contact Us'):currentPath==='/track'?(isArabic?'تتبّع طلبك':'Track Your Order'):currentPath==='/custom-gift'?(isArabic?'صممي هديتك':'Create Your Gift'):(isArabic?'المنتجات':'Shop')
