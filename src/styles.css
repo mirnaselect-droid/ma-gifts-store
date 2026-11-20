@@ -554,3 +554,7 @@ footer{background:linear-gradient(125deg,#4b263b,#382033)}
 .build-your-gift>p{color:#846d61;font-size:13px;margin:0 0 16px}
 .build-your-gift .category-row{justify-content:center;flex-wrap:wrap}
 .build-your-gift .category-card{background:rgba(255,255,255,.72);border-radius:14px;padding:12px;min-width:115px}
+
+.clear-category-filter{display:block;margin:0 auto 18px;padding:9px 16px;border:1px solid #d9b8a6;border-radius:999px;background:#fffaf6;color:#805d50;font:600 12px 'Cairo',sans-serif;cursor:pointer}
+.build-your-gift .category-card{transition:transform .2s ease,box-shadow .2s ease}
+.build-your-gift .category-card:active{transform:scale(.97)}
