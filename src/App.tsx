@@ -10,16 +10,16 @@ const fallbackCategories:Category[] = [
   {id:'2',slug:'womens-gifts',name_ar:'هدايا نسائية',name_en:"Gifts for Her",image_url:null},
   {id:'3',slug:'mens-gifts',name_ar:'هدايا رجالية',name_en:"Gifts for Him",image_url:null},
   {id:'4',slug:'beauty-care',name_ar:'العناية والجمال',name_en:'Beauty & Self-care',image_url:null},
-  {id:'5',slug:'custom-gifts',name_ar:'صمّم هديتك بنفسك',name_en:'Create Your Own Gift',image_url:null},
-  {id:'6',slug:'original-gifts',name_ar:'جيفت أوريجينال',name_en:'Original Gifts',image_url:null},
-  {id:'7',slug:'high-copy-gifts',name_ar:'جيفت هاي كوبي',name_en:'High Copy Gifts',image_url:null},
-  {id:'8',slug:'mirror-gifts',name_ar:'جيفت ميرور',name_en:'Mirror Gifts',image_url:null},
-  {id:'9',slug:'copy-gifts',name_ar:'جيفت كوبي',name_en:'Copy Gifts',image_url:null},
-  {id:'10',slug:'budget-gifts',name_ar:'جيفت اقتصادي',name_en:'Budget-friendly Gifts',image_url:null},
+  {id:'5',slug:'custom-gifts',name_ar:'تصميم هدية حسب الطلب',name_en:'Custom Gift Design',image_url:null},
+  {id:'6',slug:'original-gifts',name_ar:'منتجات أصلية',name_en:'Original Products',image_url:null},
+  {id:'7',slug:'high-copy-gifts',name_ar:'منتجات هاي كوبي',name_en:'High-Copy Products',image_url:null},
+  {id:'8',slug:'mirror-gifts',name_ar:'منتجات ميرور',name_en:'Mirror-Quality Products',image_url:null},
+  {id:'9',slug:'copy-gifts',name_ar:'منتجات كوبي',name_en:'Copy Products',image_url:null},
+  {id:'10',slug:'budget-gifts',name_ar:'منتجات اقتصادية',name_en:'Affordable Products',image_url:null},
 ]
 const localeNames:[string,string][]=[['ar-EG','العربية'],['en','English'],['ar-SA','السعودية'],['ar-AE','الإمارات'],['ar-KW','الكويت'],['tr','Türkçe'],['zh-CN','中文'],['ko','한국어'],['fr','Français'],['de','Deutsch'],['es','Español']]
 const copy = {
-'ar-EG':{home:'الرئيسية',products:'المنتجات',occasions:'المناسبات',about:'من نحن',contact:'تواصل معنا',login:'تسجيل الدخول',track:'تتبع طلبك',search:'ابحث عن الهدية المناسبة...',hero:'كل هدية… حكاية حب',sub:'هدايا مختارة بعناية، وتفاصيل تصنع لحظات لا تُنسى.',shop:'تسوّق الآن',categories:'تصفّح حسب الفئة',latest:'هدايا مميزة للجميع',empty:'قريبًا هنعرض أجمل الهدايا هنا',emptySub:'بنجهّز تشكيلتنا بعناية علشان كل هدية تبقى حكاية.',benefit1:'تغليف فاخر',benefit2:'دفع آمن وموثوق',benefit3:'توصيل حسب منطقتك',benefit4:'دعم ومساعدة',custom:'صمّم هديتك بطريقتك',customSub:'اختَر المنتجات والألوان والتفاصيل المناسبة، واجمعها في هدية تعبّر عن ذوقك ومناسبتك.',start:'ابدأ تصميم هديتك',footer:'صُنعت بحب، خصيصًا لك',all:'كل الهدايا'},
+'ar-EG':{home:'الرئيسية',products:'المنتجات',occasions:'المناسبات',about:'من نحن',contact:'تواصل معنا',login:'تسجيل الدخول',track:'تتبع طلبك',search:'ابحث عن الهدية المناسبة...',hero:'كل هدية… حكاية حب',sub:'هدايا مختارة بعناية، وتفاصيل تصنع لحظات لا تُنسى.',shop:'تسوّق الآن',categories:'تصفّح حسب الفئة',latest:'هدايا مميزة للجميع',empty:'قريبًا هنعرض أجمل الهدايا هنا',emptySub:'بنجهّز تشكيلتنا بعناية علشان كل هدية تبقى حكاية.',benefit1:'تغليف فاخر',benefit2:'دفع آمن وموثوق',benefit3:'توصيل حسب منطقتك',benefit4:'دعم ومساعدة',custom:'هدية بتصميمك الخاص',customSub:'نسّق المنتجات والألوان والتفاصيل المناسبة لتصميم هدية تناسب ذوقك ومناسبتك.',start:'ابدأ تصميم هديتك',footer:'صُنعت بحب، خصيصًا لك',all:'كل الهدايا'},
 'en':{home:'Home',products:'Shop',occasions:'Occasions',about:'Our Story',contact:'Contact',login:'Sign in',track:'Track order',search:'Find your perfect gift...',hero:'Every gift tells a story of love',sub:'Thoughtfully chosen gifts, made personal just for them.',shop:'Shop now',categories:'Shop by category',latest:'Gifts for every style',empty:'Beautiful gifts are coming soon',emptySub:'We are carefully preparing our first collection.',benefit1:'Premium wrapping',benefit2:'Secure checkout',benefit3:'Regional delivery',benefit4:'Friendly support',custom:'A gift made your way',customSub:'Choose the products, colors and little details to create a gift that feels personal.',start:'Create your gift',footer:'Made with love, just for you',all:'All gifts'}
 } as const
 function App(){
