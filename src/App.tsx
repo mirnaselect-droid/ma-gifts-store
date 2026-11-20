@@ -22,6 +22,9 @@ function App(){
  const [products,setProducts]=useState<Product[]>([])
  const [cartItems,setCartItems]=useState<{product:Product;quantity:number}[]>([])
  const [cartOpen,setCartOpen]=useState(false)
+ const [checkoutOpen,setCheckoutOpen]=useState(false)
+ const [checkoutMessage,setCheckoutMessage]=useState('')
+ const [shipping,setShipping]=useState({name:'',phone:'',country:'مصر',city:'',address:'',notes:'',payment:'cash_on_delivery'})
  const [menuOpen,setMenuOpen]=useState(false)
  const [search,setSearch]=useState('')
  const [showSearch,setShowSearch]=useState(false)
@@ -85,6 +88,7 @@ function App(){
   finally{setAuthBusy(false)}
  }
  const signOut=async()=>{if(supabase)await supabase.auth.signOut();setIsAdmin(false);setAuthOpen(false)}
+ const reviewCheckout=(e:FormEvent)=>{e.preventDefault();setCheckoutMessage(isArabic?'بيانات التوصيل مكتملة. تأكيد الطلب والدفع هيتفعّلوا بعد ربط إجراء آمن لإنشاء الطلب والتحقق من الأسعار والمخزون.':'Delivery details are complete. Order placement will be enabled after secure server-side order creation and price/stock validation are connected.')}
 
  return <div className="site-shell">
   <div className="topbar"><div className="socials"><a aria-label="TikTok"><Music2/></a><a aria-label="WhatsApp"><MessageCircle/></a><a aria-label="Instagram"><Instagram/></a><a aria-label="Facebook"><Facebook/></a></div><div className="top-love">♥ Made with Love · Just for You ♥</div><div className="top-links"><a href="#track"><Truck size={15}/>{t.track}</a><a href="#account" onClick={e=>{e.preventDefault();setAuthOpen(true)}}><UserRound size={15}/>{session?.user?.email||t.login}</a></div></div>
@@ -109,9 +113,24 @@ function App(){
      <button className="remove-line" onClick={()=>setCartItems(items=>items.filter(x=>x.product.id!==item.product.id))}>{isArabic?'حذف':'Remove'}</button>
     </article>)}</div>
     <p className="cart-note">{isArabic?'راجعي المنتجات والكميات قبل الانتقال لإتمام الطلب.':'Review your items and quantities before checkout.'}</p>
-    <button className="add-btn cart-checkout" onClick={()=>{setCartOpen(false);if(!session)setAuthOpen(true);else setAuthMessage(isArabic?'الخطوة التالية هي تجهيز صفحة إتمام الطلب.':'Checkout setup is the next step.')}}>{isArabic?'متابعة لإتمام الطلب':'Continue to checkout'}</button>
+    <button className="add-btn cart-checkout" onClick={()=>{setCartOpen(false);if(!session){setAuthOpen(true)}else{setCheckoutMessage('');setCheckoutOpen(true)}}}>{isArabic?'متابعة لإتمام الطلب':'Continue to checkout'}</button>
    </>}
   </aside></div>}
+  {checkoutOpen&&<div className="drawer-backdrop checkout-backdrop" onClick={()=>setCheckoutOpen(false)}><section className="checkout-panel" role="dialog" aria-modal="true" aria-label={isArabic?'إتمام الطلب':'Checkout'} onClick={e=>e.stopPropagation()}>
+   <div className="cart-heading"><h2>{isArabic?'بيانات التوصيل والدفع':'Delivery & payment'}</h2><button className="icon-btn" onClick={()=>setCheckoutOpen(false)} aria-label="Close"><X/></button></div>
+   <div className="checkout-summary"><strong>{isArabic?'ملخص السلة':'Order summary'}</strong>{cartItems.map(item=><div key={item.product.id}><span>{isArabic?item.product.name_ar:item.product.name_en} × {item.quantity}</span><b>{money(item.product.price*item.quantity,item.product.currency)}</b></div>)}<div className="checkout-total"><strong>{isArabic?'الإجمالي المبدئي':'Estimated subtotal'}</strong><strong>{money(cartItems.reduce((sum,item)=>sum+item.product.price*item.quantity,0),cartItems[0]?.product.currency||currency)}</strong></div></div>
+   <form className="checkout-form" onSubmit={reviewCheckout}>
+    <label>{isArabic?'اسم المستلم':'Recipient name'}<input required value={shipping.name} onChange={e=>setShipping({...shipping,name:e.target.value})} autoComplete="name"/></label>
+    <label>{isArabic?'رقم الهاتف':'Phone number'}<input required type="tel" value={shipping.phone} onChange={e=>setShipping({...shipping,phone:e.target.value})} autoComplete="tel"/></label>
+    <div className="checkout-two"><label>{isArabic?'الدولة':'Country'}<input required value={shipping.country} onChange={e=>setShipping({...shipping,country:e.target.value})} autoComplete="country-name"/></label><label>{isArabic?'المدينة':'City'}<input required value={shipping.city} onChange={e=>setShipping({...shipping,city:e.target.value})} autoComplete="address-level2"/></label></div>
+    <label>{isArabic?'العنوان بالتفصيل':'Full address'}<textarea required rows={3} value={shipping.address} onChange={e=>setShipping({...shipping,address:e.target.value})} autoComplete="street-address"/></label>
+    <label>{isArabic?'ملاحظات على الطلب (اختياري)':'Order notes (optional)'}<textarea rows={2} value={shipping.notes} onChange={e=>setShipping({...shipping,notes:e.target.value})}/></label>
+    <label>{isArabic?'طريقة الدفع':'Payment method'}<select value={shipping.payment} onChange={e=>setShipping({...shipping,payment:e.target.value})}><option value="cash_on_delivery">{isArabic?'الدفع عند الاستلام':'Cash on delivery'}</option><option value="bank_transfer">{isArabic?'تحويل بنكي / محفظة':'Bank or wallet transfer'}</option></select></label>
+    {checkoutMessage&&<p className="checkout-notice" role="status">{checkoutMessage}</p>}
+    <button className="add-btn auth-submit" type="submit">{isArabic?'مراجعة بيانات الطلب':'Review delivery details'}</button>
+    <p className="checkout-footnote">{isArabic?'لسه مش هنخصم أي مبلغ أو ننشئ طلب قبل اكتمال الربط الآمن.':'No payment will be taken and no order will be created until secure checkout is fully connected.'}</p>
+   </form>
+  </section></div>}
   {authOpen&&<div className="drawer-backdrop auth-backdrop" role="presentation" onClick={()=>setAuthOpen(false)}><section className="auth-modal" role="dialog" aria-modal="true" aria-label={isArabic?'حساب العميل':'Customer account'} onClick={e=>e.stopPropagation()}>
    <button className="icon-btn close" onClick={()=>setAuthOpen(false)} aria-label="Close"><X/></button>
    <h2>{authMode==='signin'?(isArabic?'تسجيل الدخول':'Sign in'):(isArabic?'إنشاء حساب جديد':'Create account')}</h2>
