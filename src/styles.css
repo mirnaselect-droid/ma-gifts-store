@@ -405,3 +405,16 @@ footer{background:linear-gradient(125deg,#4b263b,#382033)}
  .custom-banner,.benefits{width:calc(100% - 26px);margin-inline:13px}
  .support-float{width:46px;height:46px;bottom:14px;right:14px}
 }
+
+.contact-payment{width:min(620px,100%);margin:14px auto 4px;padding:18px;border:1px solid #b9977c55;border-radius:18px;background:#ffffff0d;display:flex;align-items:center;flex-direction:column;gap:10px}
+.contact-payment h3{margin:0 0 3px;font-size:17px;color:#f2dfc7}
+.contact-payment>a{display:flex;align-items:center;justify-content:center;gap:9px;color:#f7e8d7;font-size:13px;text-align:center;overflow-wrap:anywhere}
+.contact-payment>p{margin:0;color:#dfc9b5;font-size:11px}
+.instapay-mark{width:24px;height:24px;display:grid;place-items:center;border-radius:7px;background:#f5e2c5;color:#5a3047;font-size:10px;font-weight:900}
+.contact-socials{display:flex;justify-content:center;flex-wrap:wrap;gap:16px;margin-top:5px}
+.contact-socials a{display:flex;align-items:center;gap:6px;color:#e9d7c5;font-size:12px}
+.contact-socials svg{width:16px;height:16px}
+.payment-instructions{display:flex;flex-direction:column;gap:8px;padding:13px;border-radius:12px;background:#f4e9df;color:#573449;font-size:12px;line-height:1.7}
+.payment-instructions a{font-weight:800;text-decoration:underline;color:#6c304b}
+.payment-instructions span{color:#795f5a}
+@media(max-width:760px){.contact-payment{margin-top:10px;padding:15px 10px}.contact-payment>a{font-size:12px}.contact-socials{gap:13px}}
