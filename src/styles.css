@@ -662,3 +662,21 @@ footer{background:linear-gradient(125deg,#4b263b,#382033)}
  .footer-brand small{font-size:9px}
  .footer-ribbon{font-size:65px;top:20px}
 }
+
+
+/* Custom gift builder categories live on their own page */
+.custom-gift-page{min-height:58vh;padding:28px clamp(16px,4vw,56px) 54px;background:#fff6ec}
+.custom-gift-page .section-heading{margin:18px auto 10px}
+.custom-gift-intro{margin:0 auto 28px;text-align:center;color:#80636a;font-size:15px;line-height:1.8}
+.custom-gift-categories{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px 20px;max-width:1000px;margin:0 auto;justify-items:center}
+.custom-gift-categories .category-card{width:100%;max-width:190px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.custom-gift-categories .category-card>img,.custom-gift-categories .category-art{width:min(100%,168px);aspect-ratio:1;border-radius:50%;object-fit:cover;border:2px solid #c8a06d;box-shadow:inset 0 0 0 4px #fff8f0,0 4px 12px #4c14201a}
+.custom-gift-categories .category-card strong{color:#542037;font-size:14px;line-height:1.5}
+@media(max-width:760px){
+ .custom-gift-page{padding:20px 14px 36px}
+ .custom-gift-intro{font-size:13px;margin-bottom:20px}
+ .custom-gift-categories{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 12px}
+ .custom-gift-categories .category-card{max-width:150px}
+ .custom-gift-categories .category-card>img,.custom-gift-categories .category-art{width:min(100%,126px)}
+ .custom-gift-categories .category-card strong{font-size:12px}
+}
