@@ -308,3 +308,100 @@ footer{min-height:180px;background:radial-gradient(ellipse at 50% 0,#78243f,#350
  .ma-admin-module{min-height:340px;padding:24px 15px}.ma-admin-module h2{font-size:17px}.ma-admin-module p{font-size:11px}
  .ma-admin-module-note{font-size:9px;line-height:1.7}
 }
+
+/* M&A Gifts — calm, premium storefront refresh */
+:root{color:#432334;background:#fbf7f1}
+body{background:#fbf7f1;color:#432334}
+.site-shell{background:#fbf7f1}
+.topbar{background:#4b2438;color:#f8eadb}
+.main-header{background:#fffdf9;border-bottom:1px solid #eadfD3;box-shadow:0 5px 22px #39202a0a}
+.brand strong{color:#4a2638;letter-spacing:-.7px}
+.brand small{color:#9b806d}
+.hero{height:clamp(340px,39vw,500px);background:radial-gradient(ellipse at 78% 80%,#87546a 0,transparent 35%),radial-gradient(ellipse at 14% 8%,#c69b8c 0,transparent 32%),linear-gradient(120deg,#4c263b 0%,#754258 52%,#3e2035 100%)}
+.hero:before{background:radial-gradient(circle at 78% 35%,#f4d8b41c 0 1px,transparent 2px),radial-gradient(circle at 18% 76%,#f4d8b41c 0 1px,transparent 2px);background-size:34px 34px;opacity:.5}
+.hero-copy{width:100%;max-width:780px;margin-inline:auto;padding:40px 24px;text-align:center}
+.hero h1{font-family:'Cairo','Playfair Display',serif;font-weight:700;letter-spacing:-1px;color:#f6e4c8}
+.hero p{font-size:clamp(14px,2vw,19px);color:#f8eee4}
+.eyebrow{letter-spacing:2.5px;color:#e7c9a5}
+.hero .gold-btn{background:linear-gradient(120deg,#f7e8cf,#d7b58a);box-shadow:0 10px 28px #1e0d1838}
+.gift-scene{opacity:.18;filter:blur(.3px);transform:scale(.9)}
+.hero-flower{opacity:.08}
+.hero-caption{color:#ead6be}
+.hero-dots{gap:10px}
+.hero-dots i{width:7px;height:7px}
+.category-section,.products-section{padding-top:34px;padding-bottom:24px}
+.section-heading{margin-bottom:24px}
+.section-heading h2{font-size:clamp(17px,2vw,22px);color:#563044}
+.section-heading span{background:linear-gradient(90deg,transparent,#b99a78)}
+.category-row{gap:clamp(10px,2vw,26px)}
+.category-card{gap:11px;color:#4b2a3b}
+.category-art{border:1px solid #d6c1a6;box-shadow:inset 0 0 0 5px #fffaf4,0 8px 22px #50304412;background:linear-gradient(145deg,#fffdf9,#ead9ce)}
+.category-art svg{color:#80536a;stroke-width:1.35}
+.art-1,.art-3{background:linear-gradient(145deg,#fff9f3,#e6c7c2)}
+.art-2{background:linear-gradient(145deg,#fffdf7,#d9c8b4);color:#80536a}
+.art-4{background:linear-gradient(145deg,#fff9f3,#e8d5b8)}
+.category-card strong{background:transparent;padding:0;color:#573448;font-size:13px;font-weight:700}
+.product-card{background:#fffdf9;border:1px solid #eee3d8;box-shadow:0 8px 24px #4323340a}
+.product-image{background:#f2e9df}
+.product-card h3{color:#513247}
+.product-card p{color:#946c57}
+.add-btn{background:#5a3047;border-radius:24px}
+.custom-banner{background:linear-gradient(110deg,#4e293e,#765065);box-shadow:0 12px 28px #4e293e16}
+.benefits{background:#f2e9df}
+.benefits div{color:#5a3949}
+footer{background:linear-gradient(125deg,#4b263b,#382033)}
+.support-float{background:#5a3047;border-color:#e7d3b4;box-shadow:0 7px 20px #39202a30}
+.drawer-backdrop{background:#21131bb0;backdrop-filter:blur(3px)}
+.drawer{width:min(370px,88vw);padding:22px 20px 18px;background:#fffdf9;color:#4c2a3c;box-shadow:18px 0 45px #1c0f1840;gap:0}
+.drawer-top{display:flex;align-items:center;justify-content:space-between;padding-bottom:18px;border-bottom:1px solid #eee4da}
+.drawer-brand{font:600 27px 'Playfair Display',serif;color:#4e2b40;border:0;padding:0}
+.drawer-brand small{font:11px 'Cairo',sans-serif;color:#a08472;margin-top:4px}
+.drawer .close{width:36px;height:36px;justify-content:center;border-radius:50%;background:#f5eee7}
+.drawer-account{display:flex;align-items:center;gap:11px;padding:17px 0;border-bottom:1px solid #eee4da;flex-wrap:wrap}
+.drawer-avatar{width:43px;height:43px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;background:linear-gradient(145deg,#f1e3d8,#e4d0c4);color:#70465a;border:1px solid #ddc8b4}
+.drawer-avatar svg{width:20px;height:20px}
+.drawer-account-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+.drawer-account-copy strong{font-size:14px;color:#4d2b3d}
+.drawer-account-copy small{font-size:10px;color:#987f70;overflow-wrap:anywhere}
+.drawer-account-copy span{font-size:10px;color:#9a765f}
+.drawer-signout,.drawer-signin{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid #eadbd0;background:#f8f1ea;color:#653b50;border-radius:12px;padding:10px 12px;font:600 12px 'Cairo',sans-serif;cursor:pointer}
+.drawer-signin{margin-top:10px;background:#5a3047;color:#fff8ef;border-color:#5a3047}
+.drawer-links{display:flex;flex-direction:column;padding-top:8px}
+.drawer-links a{display:flex;align-items:center;justify-content:space-between;padding:13px 4px;border-bottom:1px solid #f0e8e0;font-size:14px;font-weight:600;color:#513348}
+.drawer-links a span{font-size:21px;color:#b3977e}
+.drawer-footer{margin-top:auto;padding-top:18px;text-align:center;color:#a78b77;font:13px 'Playfair Display',serif;letter-spacing:1px}
+.drawer-footer span{color:#8b566d}
+.auth-modal{border:1px solid #eadfd4;box-shadow:0 22px 70px #1c0f1855}
+.auth-modal input{border-color:#e6d8cc}
+.auth-submit{background:#5a3047}
+@media(max-width:760px){
+ .topbar{display:none}
+ .main-header{height:76px;padding:0 13px;background:#fffdf9;gap:10px}
+ .brand{gap:5px}
+ .brand strong{font-size:23px}
+ .brand small{font-size:9px}
+ .brand-mark{font-size:27px}
+ .mobile-menu{width:34px;height:38px;justify-content:center}
+ .cart-btn{gap:6px}
+ .language{max-width:76px;background:#fffdf9;border-color:#e8d9ca;border-radius:12px;padding:7px 5px}
+ .hero{height:330px;min-height:330px;display:block}
+ .hero-copy{padding:31px 18px 0}
+ .hero h1{font-size:clamp(27px,7vw,36px);margin:12px 0 7px}
+ .hero p{font-size:13px;max-width:320px;line-height:1.9}
+ .hero .gold-btn{font-size:12px;padding:10px 22px}
+ .gift-scene{width:68%;height:39%;left:16%;bottom:13px;opacity:.13}
+ .hero-flower{font-size:75px;top:24%;left:4%}
+ .hero-dots{bottom:8px}
+ .category-section,.products-section{padding:23px 14px 15px}
+ .section-heading{margin-bottom:18px}
+ .section-heading h2{font-size:15px}
+ .section-heading span{width:26px}
+ .category-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px 8px;overflow:visible;padding:0}
+ .category-card{min-width:0;gap:7px}
+ .category-art{width:min(100%,76px);max-width:76px;border-width:1px;box-shadow:inset 0 0 0 4px #fffaf4,0 5px 14px #50304410}
+ .category-art svg{width:27px;height:27px}
+ .category-card strong{font-size:10px;line-height:1.45}
+ .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .custom-banner,.benefits{width:calc(100% - 26px);margin-inline:13px}
+ .support-float{width:46px;height:46px;bottom:14px;right:14px}
+}
