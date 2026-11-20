@@ -7,3 +7,5 @@
 .auth-message{font-size:12px;color:#7a243e;background:#f3e4d7;padding:9px;border-radius:8px;overflow-wrap:anywhere}
 .account-chip{position:fixed;z-index:6;bottom:18px;left:18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;max-width:calc(100vw - 90px);background:#fffaf4;border:1px solid #e5d1bd;color:#51172e;border-radius:14px;padding:9px 12px;box-shadow:0 5px 20px #2c0a1c22;font-size:11px}
 .account-chip span{max-width:145px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.account-chip a{font-weight:800}.account-chip button{border:0;background:#651934;color:#fff8ed;border-radius:12px;padding:5px 9px;font-size:11px}
+
+.auth-backdrop{display:grid;place-items:center;padding:15px}
