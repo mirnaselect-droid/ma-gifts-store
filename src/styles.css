@@ -534,3 +534,9 @@ footer{background:linear-gradient(125deg,#4b263b,#382033)}
 .ma-admin-dashboard-cover h2{font-size:22px;margin:8px 0 4px}
 .ma-admin-dashboard-cover p{font-size:11px;margin:0;color:#f3e2d2}
 .ma-admin-dashboard-cover>svg{color:#f0d9bb;opacity:.8}
+
+/* Owner-editable brand tokens */
+.site-shell .add-btn,.site-shell .auth-submit,.site-shell .support-float{background:var(--ma-primary,#5a3047)}
+.site-shell .topbar,.site-shell .custom-banner{background-color:var(--ma-secondary,#4b263b)}
+.site-shell .hero .gold-btn{background:linear-gradient(120deg,#f7e8cf,var(--ma-accent,#d7b58a))}
+.site-shell .section-heading h2,.site-shell .brand strong{color:var(--ma-primary,#5a3047)}
