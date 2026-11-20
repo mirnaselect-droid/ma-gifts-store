@@ -528,3 +528,9 @@ footer{background:linear-gradient(125deg,#4b263b,#382033)}
 .ma-admin-config-body{padding:15px;border-top:1px solid #f0e7df}
 .ma-admin-config-body .ma-admin-primary{margin-top:14px}
 @media(max-width:650px){.ma-account-backdrop{padding:7px;align-items:end}.ma-account{max-height:94vh;border-radius:20px 20px 12px 12px}.ma-account-head{padding:14px}.ma-account-body{padding:15px}.ma-account-fields{grid-template-columns:1fr}.ma-account-tabs{padding:9px;gap:4px}.ma-account-tabs button{flex:1;justify-content:center;padding:8px 5px;font-size:10px}.ma-account-order{flex-wrap:wrap}.ma-account-order>div{flex-basis:100%}.ma-account-order>strong{margin-left:auto}.ma-account-footer{padding:12px}.ma-admin-settings-banner{min-height:145px;padding:18px}.ma-admin-settings-banner h2{font-size:19px}}
+
+.ma-admin-dashboard-cover{min-height:155px;margin-bottom:15px;padding:22px 25px;border-radius:16px;background:linear-gradient(115deg,#482438,#795267);background-size:cover;background-position:center;color:#fff5e8;display:flex;align-items:center;justify-content:space-between;overflow:hidden}
+.ma-admin-dashboard-cover>div>span{font-size:9px;letter-spacing:2px;color:#e7c9a5}
+.ma-admin-dashboard-cover h2{font-size:22px;margin:8px 0 4px}
+.ma-admin-dashboard-cover p{font-size:11px;margin:0;color:#f3e2d2}
+.ma-admin-dashboard-cover>svg{color:#f0d9bb;opacity:.8}
