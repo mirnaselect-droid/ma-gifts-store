@@ -90,7 +90,7 @@ function App(){
    <section className="benefits"><div><Gift/><span>{t.benefit1}</span></div><div><ShieldCheck/><span>{t.benefit2}</span></div><div><Truck/><span>{t.benefit3}</span></div><div><Headphones/><span>{t.benefit4}</span></div></section>
   </main>
   <footer id="contact"><div className="footer-brand"><span className="brand-mark">🎁</span><strong>M&A Gifts</strong><small>Made with Love, Just for You ♡</small></div><p>{t.footer}</p><div className="footer-links"><a href="#about">{t.about}</a><a href="#contact">{t.contact}</a><a href="#track">{t.track}</a></div><small>© {new Date().getFullYear()} M&A Gifts. Founded & owned by Mirna Mamdouh.</small><small className="credit">Built with the assistance of ChatGPT and OpenAI tools.</small><span className="db-indicator">{dbStatus==='connected'?'● Live store data':dbStatus==='loading'?'Connecting…':'Preview mode'}</span></footer>
-  {authOpen&&<div className="drawer-backdrop" role="presentation" onClick={()=>setAuthOpen(false)}><section className="auth-modal" role="dialog" aria-modal="true" aria-label={isArabic?'حساب العميل':'Customer account'} onClick={e=>e.stopPropagation()}>
+  {authOpen&&<div className="drawer-backdrop auth-backdrop" role="presentation" onClick={()=>setAuthOpen(false)}><section className="auth-modal" role="dialog" aria-modal="true" aria-label={isArabic?'حساب العميل':'Customer account'} onClick={e=>e.stopPropagation()}>
    <button className="icon-btn close" onClick={()=>setAuthOpen(false)} aria-label="Close"><X/></button>
    <h2>{authMode==='signin'?(isArabic?'تسجيل الدخول':'Sign in'):(isArabic?'إنشاء حساب جديد':'Create account')}</h2>
    <p>{isArabic?'أهلاً بيكي في M&A Gifts':'Welcome to M&A Gifts'}</p>
@@ -103,7 +103,7 @@ function App(){
    </form>
    <button className="auth-switch" onClick={()=>{setAuthMode(authMode==='signin'?'signup':'signin');setAuthMessage('')}}>{authMode==='signin'?(isArabic?'مفيش حساب؟ أنشئي حساب جديد':'New here? Create an account'):(isArabic?'عندك حساب؟ سجلي الدخول':'Already registered? Sign in')}</button>
   </section></div>}
-  {session?.user&&<div className="account-chip"><span>{session.user.email}</span>{isAdmin&&<a href="#admin">{isArabic?'لوحة التحكم':'Admin dashboard'}</a>}<button onClick={signOut}>{isArabic?'تسجيل الخروج':'Sign out'}</button></div>}
+  {session?.user&&<div className="account-chip"><span>{session.user.email}</span>{isAdmin&&<span>{isArabic?'صلاحية المالكة مؤكدة':'Owner access verified'}</span>}<button onClick={signOut}>{isArabic?'تسجيل الخروج':'Sign out'}</button></div>}
   <a className="support-float" href="#contact" aria-label="Customer support"><Headphones/></a>
  </div>
 }
