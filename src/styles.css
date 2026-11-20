@@ -582,3 +582,83 @@ footer{background:linear-gradient(125deg,#4b263b,#382033)}
 .route-contact-links{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:28px auto}
 .route-contact-links a{display:flex;align-items:center;gap:8px;background:#f2e2d5;border-radius:14px;padding:13px 20px;color:#5b1a32}
 @media(max-width:700px){.route-page{padding:24px 13px 42px;min-height:60vh}.route-page .section-heading{gap:8px}.route-page .section-heading span{width:24px}.product-detail-layout{grid-template-columns:1fr;gap:18px}.product-detail-image{max-height:390px}.product-detail-info{text-align:center}.product-detail-info p{font-size:13px}.route-subcategories{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.route-subcategories .category-art{max-width:78px}.product-detail-cta{font-size:11px}}
+
+
+/* Exact M&A Gifts reference layout — preview branch */
+.site-shell{background:#fff6ec!important;color:#53172f}
+.topbar{height:36px;background:#350817;color:#f8e9d9}
+.main-header{height:82px;position:relative;z-index:5;background:#fff8f0;border-bottom:1px solid #ead7c6}
+.hero.hero-image-only{display:block;width:100%;max-width:none;height:clamp(210px,26.8vw,390px);min-height:0;margin:0;border-radius:0;border:0;border-bottom:4px solid #ead7c6;box-shadow:none;background-color:#4a1027;background-position:center;background-size:cover;overflow:hidden}
+.category-section{padding:12px clamp(14px,3vw,44px) 10px;background:#fff6ec}
+.category-section>.section-heading,.products-section>.section-heading{margin:0 auto 12px}
+.category-row{display:flex;justify-content:center;align-items:flex-start;gap:clamp(14px,3vw,42px);max-width:1160px;margin:0 auto;overflow:visible}
+.category-card{flex:0 1 165px;min-width:0;gap:7px;text-align:center}
+.category-card>img,.category-art{width:clamp(112px,12vw,158px);aspect-ratio:1;border-radius:50%;object-fit:cover;border:2px solid #c8a06d;background:linear-gradient(145deg,#f8e7d9,#e8c9c2);box-shadow:inset 0 0 0 4px #fff8f0,0 4px 12px #4c14201a}
+.category-art{display:grid;place-items:center;color:#7a3b50}
+.category-art svg{width:42px;height:42px;stroke-width:1.5}
+.category-card strong{display:inline-block;margin-top:0;padding:5px 10px;border-radius:8px;background:#f1dfca;border:1px solid #e4c9aa;color:#542037;font-size:12px;line-height:1.4}
+.build-your-gift{margin-top:20px}
+.build-your-gift>p{text-align:center;color:#8b6c69;font-size:12px;margin:0 0 10px}
+.build-your-gift .category-row{gap:12px}
+.products-section{padding:10px clamp(14px,2.5vw,38px) 18px;background:#fff6ec}
+.product-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;max-width:1380px;margin:0 auto}
+.product-card{position:relative;display:flex;flex-direction:column;align-items:stretch;padding:5px;background:#fffaf5;border:1px solid #ead6c5;border-radius:14px;box-shadow:0 3px 10px #47132812;min-width:0}
+.product-image{aspect-ratio:1.16;border-radius:10px;overflow:hidden;background:#f1e2d7}
+.product-image img{width:100%;height:100%;object-fit:cover}
+.product-card h3{font-size:clamp(11px,1vw,14px);line-height:1.5;min-height:2.8em;text-align:center;margin:7px 4px 2px;color:#542037}
+.product-card p{text-align:center;color:#601a35;font-weight:800;margin:2px 0 7px}
+.product-card .product-detail-cta{display:none}
+.product-card .add-btn{width:80%;align-self:center;justify-content:center;margin:0 auto 3px;padding:7px 10px;background:linear-gradient(110deg,#68142f,#4a0b23);border-radius:18px;color:#fff8ed;font-size:11px}
+.product-card .heart{position:absolute;top:10px;left:10px;z-index:2;width:27px;height:27px;border:1px solid #e5cdbd;border-radius:50%;background:#fffaf2;color:#6c203b;display:grid;place-items:center}
+.product-card .heart svg{width:16px;height:16px}
+.benefits-promo{width:calc(100% - 5%);max-width:1380px;margin:0 auto 18px;padding:9px 12px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) minmax(240px,1.5fr);align-items:center;gap:0;background:#f5e5d8;border:1px solid #ecd4c0;border-radius:16px;color:#5b1b34}
+.benefit-item{min-height:54px;display:flex;align-items:center;justify-content:center;gap:10px;padding:5px 9px;border-inline-end:1px solid #d9bda8;text-align:center;font-size:12px;line-height:1.45;font-weight:700}
+.benefit-item svg{width:34px;height:34px;flex:0 0 auto;stroke-width:1.8}
+.benefit-promo-card{min-height:72px;margin-inline-start:10px;padding:10px 18px;display:flex;align-items:center;justify-content:space-around;gap:10px;border-radius:15px;background:linear-gradient(110deg,#4a0d25,#771e3e);border:1px solid #bd9367;color:#f8e5c8;font-size:17px;font-weight:700;text-align:center}
+.benefit-promo-card svg{width:46px;height:46px;color:#e8c79a;stroke-width:1.4}
+.store-footer{position:relative;min-height:150px;margin-top:0;padding:24px 18px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-top:5px solid #ead4bc;background:radial-gradient(ellipse at 50% 0,#78243f 0,#4a1027 48%,#310817 100%);color:#f7e5ce}
+.footer-brand{position:relative;z-index:1;display:flex;align-items:center;gap:12px;color:#f8e8d5;text-align:center}
+.footer-brand img{width:65px;height:65px;object-fit:contain}
+.footer-brand-mark{font-size:48px}
+.footer-brand strong{display:block;font:36px 'Playfair Display',Georgia,serif}
+.footer-brand small{display:block;font:12px 'Playfair Display',Georgia,serif;color:#efd7b8}
+.footer-ribbon{position:absolute;top:18px;color:#d7b17f;font:100px Georgia,serif;opacity:.42}
+.footer-ribbon-left{left:3%}.footer-ribbon-right{right:3%}
+@media(max-width:1050px) and (min-width:761px){
+ .main-header{grid-template-columns:auto minmax(110px,160px) minmax(175px,1fr) auto;gap:10px;padding-inline:14px}
+ .desktop-nav{gap:8px;font-size:10px}
+ .brand strong{font-size:25px}.brand-mark{font-size:32px}
+ .category-row{gap:10px}.category-card{flex-basis:145px}
+ .category-card>img,.category-art{width:clamp(88px,11vw,120px)}
+ .product-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .benefits-promo{grid-template-columns:repeat(4,minmax(0,1fr)) minmax(180px,1.3fr)}
+ .benefit-item{font-size:10px;gap:6px}.benefit-item svg{width:27px}
+}
+@media(max-width:760px){
+ .topbar{height:30px;grid-template-columns:auto 1fr auto;padding:0 9px}
+ .main-header{height:64px;display:flex;padding:0 10px;gap:8px}
+ .hero.hero-image-only{height:clamp(105px,27vw,180px);min-height:0;width:100%;margin:0;border-radius:0;border-bottom-width:3px;background-position:center;background-size:cover}
+ .category-section,.products-section{padding:13px 10px 8px}
+ .category-row{display:flex;justify-content:flex-start;overflow-x:auto;overflow-y:hidden;gap:11px;padding:0 3px 9px;scroll-snap-type:x mandatory}
+ .category-card{flex:0 0 clamp(82px,23vw,112px);scroll-snap-align:center}
+ .category-card>img,.category-art{width:100%;max-width:none;border-width:1.5px}
+ .category-card strong{font-size:9px;line-height:1.35;padding:4px 3px;white-space:normal;background:transparent;border:0}
+ .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .product-card{padding:5px;border-radius:10px}
+ .product-image{aspect-ratio:1/1}
+ .product-card h3{font-size:10px;line-height:1.45;min-height:29px}
+ .product-card p{font-size:12px}
+ .product-card .add-btn{font-size:9px;padding:7px 8px}
+ .benefits-promo{width:calc(100% - 20px);margin:12px 10px;padding:9px 6px;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;border-radius:12px}
+ .benefit-item{min-height:48px;font-size:10px;gap:6px;padding:5px;border:0}
+ .benefit-item svg{width:22px;height:22px}
+ .benefit-promo-card{grid-column:1/-1;min-height:58px;margin:3px 0 0;padding:8px 12px;font-size:14px}
+ .benefit-promo-card svg{width:32px;height:32px}
+ .store-footer{min-height:118px;padding:18px 12px}
+ .footer-brand{gap:7px}
+ .footer-brand img{width:45px;height:45px}
+ .footer-brand-mark{font-size:32px}
+ .footer-brand strong{font-size:25px}
+ .footer-brand small{font-size:9px}
+ .footer-ribbon{font-size:65px;top:20px}
+}
