@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { Search, ShoppingBag, UserRound, Truck, Heart, Headphones, Menu, X, ChevronDown, Instagram, Facebook, Music2, MessageCircle, Sparkles, Gift, ShieldCheck, PackageCheck } from 'lucide-react'
 import { isSupabaseConfigured, supabase } from './lib/supabase'
+import AdminDashboard from './AdminDashboard'
 
 type Category = { id:string; slug:string; name_ar:string; name_en:string; image_url:string|null }
 type Product = { id:string; slug:string; name_ar:string; name_en:string; description_ar:string|null; description_en:string|null; images:string[]; price:number; currency:string; is_featured:boolean }
@@ -31,6 +32,7 @@ function App(){
  const [dbStatus,setDbStatus]=useState<'loading'|'connected'|'offline'>('loading')
  const [session,setSession]=useState<any>(null)
  const [isAdmin,setIsAdmin]=useState(false)
+ const [adminOpen,setAdminOpen]=useState(false)
  const [authOpen,setAuthOpen]=useState(false)
  const [authMode,setAuthMode]=useState<'signin'|'signup'>('signin')
  const [authName,setAuthName]=useState('')
@@ -146,7 +148,8 @@ function App(){
    </form>
    <button className="auth-switch" onClick={()=>{setAuthMode(authMode==='signin'?'signup':'signin');setAuthMessage('')}}>{authMode==='signin'?(isArabic?'مفيش حساب؟ أنشئي حساب جديد':'New here? Create an account'):(isArabic?'عندك حساب؟ سجلي الدخول':'Already registered? Sign in')}</button>
   </section></div>}
-  {session?.user&&<div className="account-chip"><span>{session.user.email}</span>{isAdmin&&<span>{isArabic?'صلاحية المالكة مؤكدة':'Owner access verified'}</span>}<button onClick={signOut}>{isArabic?'تسجيل الخروج':'Sign out'}</button></div>}
+  {session?.user&&<div className="account-chip"><span>{session.user.email}</span>{isAdmin&&<><span>{isArabic?'صلاحية المالكة مؤكدة':'Owner access verified'}</span><button onClick={()=>setAdminOpen(true)}>{isArabic?'لوحة تحكم المالكة':'Owner dashboard'}</button></>}<button onClick={signOut}>{isArabic?'تسجيل الخروج':'Sign out'}</button></div>}
+  {adminOpen&&isAdmin&&<AdminDashboard email={session?.user?.email} onClose={()=>setAdminOpen(false)}/ >}
   <a className="support-float" href="#contact" aria-label="Customer support"><Headphones/></a>
  </div>
 }
