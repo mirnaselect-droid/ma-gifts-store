@@ -680,3 +680,36 @@ footer{background:linear-gradient(125deg,#4b263b,#382033)}
  .custom-gift-categories .category-card>img,.custom-gift-categories .category-art{width:min(100%,126px)}
  .custom-gift-categories .category-card strong{font-size:12px}
 }
+
+
+/* Compact wide contact footer, sized to fit all store information */
+footer#contact{width:calc(100% - 32px);max-width:1440px;min-height:0;margin:18px auto 14px;padding:15px 24px 12px;border:1px solid #b9977c88;border-top:4px solid #c9a477;border-radius:18px;display:grid;grid-template-columns:minmax(190px,1fr) minmax(170px,.8fr) minmax(360px,2fr);grid-template-rows:auto auto;align-items:center;justify-items:center;column-gap:18px;row-gap:7px;box-sizing:border-box}
+footer#contact .footer-brand{grid-column:1;grid-row:1;align-self:center;gap:5px}
+footer#contact .footer-brand strong{font-size:25px}
+footer#contact .footer-brand small{font-size:10px}
+footer#contact>p{grid-column:1;grid-row:2;font-size:10px;margin:0}
+footer#contact .footer-links{grid-column:2;grid-row:1/3;display:flex;flex-direction:column;gap:8px;margin:0;font-size:12px}
+footer#contact .contact-payment{grid-column:3;grid-row:1/3;width:100%;max-width:none;margin:0;padding:8px 12px;border-radius:12px;gap:7px;display:flex;flex-direction:column}
+footer#contact .contact-payment h3{font-size:13px}
+footer#contact .contact-payment>a{font-size:11px;line-height:1.35}
+footer#contact .instapay-mark{width:20px;height:20px}
+footer#contact .contact-socials{gap:15px;margin-top:1px}
+footer#contact .contact-socials a{font-size:11px}
+footer#contact .contact-socials svg{width:14px;height:14px}
+footer#contact>small{grid-column:1/3;grid-row:3;font-size:9px}
+footer#contact>.db-indicator{grid-column:3;grid-row:3;font-size:9px}
+@media(max-width:760px){
+ footer#contact{width:calc(100% - 20px);margin:12px 10px;padding:12px 10px 10px;border-radius:14px;grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto auto;gap:8px}
+ footer#contact .footer-brand{grid-column:1/-1;grid-row:1}
+ footer#contact .footer-brand strong{font-size:21px}
+ footer#contact .footer-brand small{font-size:9px}
+ footer#contact>p{grid-column:1/-1;grid-row:2;font-size:9px}
+ footer#contact .footer-links{grid-column:1/-1;grid-row:3;flex-direction:row;justify-content:center;flex-wrap:wrap;gap:13px;font-size:10px}
+ footer#contact .contact-payment{grid-column:1/-1;grid-row:4;padding:9px 7px;gap:6px}
+ footer#contact .contact-payment h3{font-size:12px}
+ footer#contact .contact-payment>a{font-size:10px}
+ footer#contact .contact-socials{gap:12px}
+ footer#contact .contact-socials a{font-size:10px}
+ footer#contact>small{grid-column:1/-1;grid-row:5;font-size:8px}
+ footer#contact>.db-indicator{grid-column:1/-1;grid-row:6;font-size:8px}
+}
