@@ -1,7 +1,7 @@
 name: Build storefront
 on:
   push:
-    branches: [main]
+    branches: [main, feature/customer-auth-cart]
   pull_request:
     branches: [main]
 permissions:
