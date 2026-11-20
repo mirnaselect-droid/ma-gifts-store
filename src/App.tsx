@@ -164,7 +164,12 @@ function App(){
     <div className="footer-ribbon footer-ribbon-right">♡</div>
    </footer>
   
-   </> : routeCategory ? <section className="route-page category-route">
+   </> : currentPath==='/custom-gift' ? <section className="route-page custom-gift-page">
+    <div className="route-breadcrumb"><a href="/" onClick={e=>{e.preventDefault();navigate('/')}}>{t.home}</a> / {isArabic?'اختاري مكونات هديتك':'Choose Your Gift Components'}</div>
+    <div className="section-heading"><span></span><h1>{isArabic?'اختاري مكونات هديتك':'Choose Your Gift Components'}</h1><span></span></div>
+    <p className="custom-gift-intro">{isArabic?'اختاري الجودة التي تناسب ذوقك وميزانيتك، واجمعي هديتك بطريقتك':'Choose the quality that suits your taste and budget, and build your gift your way.'}</p>
+    <div className="category-row custom-gift-categories">{categories.filter(c=>c.parent_id===categories.find(p=>p.slug==='create-your-gift')?.id||c.parent_id==='5').map((c,i)=><a className="category-card" href={'/category/'+c.slug} onClick={e=>{e.preventDefault();navigate('/category/'+c.slug)}} key={c.id}>{c.image_url?<img src={c.image_url} alt=""/>:<div className={'category-art art-'+(i+3)}><Gift/></div>}<strong>{categoryLabel(isArabic?c.name_ar:c.name_en)}</strong></a>)}</div>
+   </section> : routeCategory ? <section className="route-page category-route">
     <div className="route-breadcrumb"><a href="/" onClick={e=>{e.preventDefault();navigate('/')}}>{t.home}</a> / {categoryLabel(isArabic?routeCategory.name_ar:routeCategory.name_en)}</div>
     <div className="section-heading"><span></span><h1>{categoryLabel(isArabic?routeCategory.name_ar:routeCategory.name_en)}</h1><span></span></div>
     {categories.some(c=>c.parent_id===routeCategory.id)&&<div className="category-row route-subcategories">{categories.filter(c=>c.parent_id===routeCategory.id).map((c,i)=><a className="category-card" href={'/category/'+c.slug} onClick={e=>{e.preventDefault();navigate('/category/'+c.slug)}} key={c.id}>{c.image_url?<img src={c.image_url} alt=""/>:<div className={'category-art art-'+i}><Gift/></div>}<strong>{categoryLabel(isArabic?c.name_ar:c.name_en)}</strong></a>)}</div>}
