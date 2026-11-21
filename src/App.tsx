@@ -40,6 +40,7 @@ function App(){
  const [cartOpen,setCartOpen]=useState(false)
  const [checkoutOpen,setCheckoutOpen]=useState(false)
  const [checkoutMessage,setCheckoutMessage]=useState('')
+ const [checkoutBusy,setCheckoutBusy]=useState(false)
  const [trackNumber,setTrackNumber]=useState('')
  const [trackLoading,setTrackLoading]=useState(false)
  const [trackResult,setTrackResult]=useState<any>(null)
@@ -141,7 +142,35 @@ function App(){
   finally{setAuthBusy(false)}
  }
  const signOut=async()=>{if(supabase)await supabase.auth.signOut();setIsAdmin(false);setAuthOpen(false)}
- const reviewCheckout=(e:FormEvent)=>{e.preventDefault();setCheckoutMessage(isArabic?'بيانات التوصيل مكتملة. تأكيد الطلب والدفع هيتفعّلوا بعد ربط إجراء آمن لإنشاء الطلب والتحقق من الأسعار والمخزون.':'Delivery details are complete. Order placement will be enabled after secure server-side order creation and price/stock validation are connected.')}
+ const reviewCheckout=async(e:FormEvent)=>{
+  e.preventDefault();setCheckoutMessage('')
+  if(!supabase||!session?.user){setCheckoutMessage(isArabic?'سجّلي الدخول أولًا لإتمام الطلب.':'Please sign in before placing an order.');return}
+  if(!cartItems.length){setCheckoutMessage(isArabic?'السلة فارغة. أضيفي منتجًا أولًا.':'Your cart is empty.');return}
+  setCheckoutBusy(true)
+  try{
+   const {data,error}=await supabase.functions.invoke('create-order',{body:{
+    customer_name:shipping.name.trim(),customer_phone:(shipping.whatsapp||shipping.phone).trim(),
+    country:shipping.country.trim(),city:[shipping.governorate,shipping.city].filter(Boolean).join(' - '),
+    shipping_address:shipping.address.trim(),notes:shipping.notes.trim(),payment_method:shipping.payment,
+    items:cartItems.map(item=>({product_id:item.product.id,quantity:item.quantity}))
+   }})
+   if(error){
+    let code=''
+    try{const response=(error as any).context as Response|undefined;if(response){const payload=await response.clone().json();code=String(payload?.error||'')}}catch{}
+    if(code==='OUT_OF_STOCK')throw new Error(isArabic?'الكمية المطلوبة غير متاحة حاليًا. راجعي المخزون أو قللي الكمية.':'Requested quantity is not currently available. Please check stock or reduce the quantity.')
+    if(code==='PRODUCT_UNAVAILABLE')throw new Error(isArabic?'أحد المنتجات لم يعد متاحًا. حدّثي السلة وحاولي مرة أخرى.':'A product is no longer available. Refresh your cart and try again.')
+    if(code==='AUTH_REQUIRED')throw new Error(isArabic?'انتهت جلسة الدخول. سجّلي الدخول مرة أخرى.':'Your session expired. Please sign in again.')
+    throw new Error(isArabic?'تعذر تسجيل الطلب حاليًا. حاولي مرة أخرى بعد قليل.':'We could not place the order right now. Please try again.')
+   }
+   const order=data?.order
+   if(!order?.order_number)throw new Error(isArabic?'لم يصل تأكيد تسجيل الطلب. لا تعيدي المحاولة قبل مراجعة الطلبات.':'The order confirmation was not returned. Please check your orders before retrying.')
+   setTrackNumber(order.order_number)
+   setTrackMessage(isArabic?'تم تسجيل طلبك بنجاح. رقم طلبك: '+order.order_number+' — الإجمالي: '+money(Number(order.total),order.currency)+'.':'Your order was placed successfully. Order number: '+order.order_number+' — Total: '+money(Number(order.total),order.currency)+'.')
+   setCartItems([]);setCheckoutOpen(false);navigate('/track')
+  }catch(err){
+   setCheckoutMessage(err instanceof Error?err.message:(isArabic?'حصل خطأ أثناء إنشاء الطلب. حاولي مرة أخرى.':'An error occurred while placing the order. Please try again.'))
+  }finally{setCheckoutBusy(false)}
+ }
  const lookupOrder=async(e:FormEvent)=>{
   e.preventDefault();setTrackResult(null);setTrackMessage('')
   if(!session?.user){setTrackMessage(isArabic?'سجّلي الدخول بنفس الحساب المستخدم عند إنشاء الطلب لمتابعة حالته.':'Sign in with the account used to place the order to view its status.');setAuthMode('signin');setAuthOpen(true);return}
@@ -233,8 +262,8 @@ function App(){
     <label>{isArabic?'ملاحظات على الطلب (اختياري)':'Order notes (optional)'}<textarea rows={2} value={shipping.notes} onChange={e=>setShipping({...shipping,notes:e.target.value})}/></label>
     <label>{isArabic?'طريقة الدفع':'Payment method'}<select value={shipping.payment} onChange={e=>setShipping({...shipping,payment:e.target.value})}><option value="wallets">{isArabic?'محفظة إلكترونية':'E-wallet'}</option><option value="instapay">InstaPay</option><option value="bank_cards">{isArabic?'بطاقة بنكية':'Bank card'}</option><option value="bank_transfer">{isArabic?'تحويل بنكي':'Bank transfer'}</option></select></label>{shipping.payment==='instapay'&&<div className="payment-instructions"><strong>InstaPay</strong><p>{storeConfig.payments?.instapay_handle||'merna.mamdouh2696@instapay'}</p><a href={storeConfig.payments?.instapay_url||"https://ipn.eg/S/merna.mamdouh2696/instapay/1me6lo"} target="_blank" rel="noreferrer">{isArabic?'افتحي رابط الدفع عبر InstaPay':'Open InstaPay payment link'}</a><p>{isArabic?'بعد التحويل احتفظي بالإيصال لإرساله مع رقم الطلب.':'Keep your transfer receipt and send it with your order number.'}</p></div>}{shipping.payment==='wallets'&&<div className="payment-instructions"><strong>{isArabic?'بيانات المحافظ الإلكترونية':'E-wallet details'}</strong>{Object.entries({orange_cash:storeConfig.wallets?.orange_cash||'01288089942',vodafone_cash:storeConfig.wallets?.vodafone_cash,etisalat_cash:storeConfig.wallets?.etisalat_cash,we_pay:storeConfig.wallets?.we_pay}).filter(([,number])=>!!number).map(([key,number])=><p key={key}><b>{key.replace('_',' ').toUpperCase()}:</b> {String(number)}</p>)}<a href="/wallets">{isArabic?'عرض كل طرق الدفع':'View all payment methods'}</a></div>}{shipping.payment==='bank_cards'&&<div className="payment-instructions"><strong>{isArabic?'الدفع بالبطاقات البنكية':'Bank card payment'}</strong>{storeConfig.payments?.card_payment_url?<a href={storeConfig.payments.card_payment_url} target="_blank" rel="noreferrer">{isArabic?'الانتقال إلى صفحة الدفع':'Continue to card payment'}</a>:<p>{isArabic?'رابط الدفع بالبطاقة غير متاح حاليًا.':'Card payment link is not available yet.'}</p>}</div>}{shipping.payment==='bank_transfer'&&<div className="payment-instructions"><strong>{isArabic?'بيانات التحويل البنكي':'Bank transfer details'}</strong>{storeConfig.payments?.bank_account_name&&<p>{isArabic?'اسم صاحب الحساب: ':'Account name: '}{storeConfig.payments.bank_account_name}</p>}{storeConfig.payments?.bank_account_number&&<p>{isArabic?'رقم الحساب: ':'Account number: '}{storeConfig.payments.bank_account_number}</p>}<p>{isArabic?'بعد التحويل احتفظ بالإيصال وأرسله مع رقم الطلب عبر واتساب.':'Keep the transfer receipt and send it with your order number via WhatsApp.'}</p><a href="/wallets">{isArabic?'عرض كل طرق الدفع':'View all payment methods'}</a></div>}
     {checkoutMessage&&<p className="checkout-notice" role="status">{checkoutMessage}</p>}
-    <button className="add-btn auth-submit" type="submit">{isArabic?'مراجعة بيانات الطلب':'Review delivery details'}</button>
-    <p className="checkout-footnote">{isArabic?'لسه مش هنخصم أي مبلغ أو ننشئ طلب قبل اكتمال الربط الآمن.':'No payment will be taken and no order will be created until secure checkout is fully connected.'}</p>
+    <button className="add-btn auth-submit" type="submit" disabled={checkoutBusy}>{checkoutBusy?(isArabic?'جارٍ تأكيد الطلب…':'Placing order…'):(isArabic?'تأكيد الطلب':'Place order')}</button>
+    <p className="checkout-footnote">{isArabic?'سيتم التحقق من الأسعار والمخزون وحفظ الطلب قبل إظهار رقم الطلب. الدفع الإلكتروني لا يتم خصمه تلقائيًا في هذه المرحلة.':'Prices and stock are validated on the server before the order is saved. Online payments are not charged automatically at this stage.'}</p>
    </form>
   </section></div>}
   {authOpen&&<div className="drawer-backdrop auth-backdrop" role="presentation" onClick={()=>setAuthOpen(false)}><section className="auth-modal" role="dialog" aria-modal="true" aria-label={isArabic?'حساب العميل':'Customer account'} onClick={e=>e.stopPropagation()}>
