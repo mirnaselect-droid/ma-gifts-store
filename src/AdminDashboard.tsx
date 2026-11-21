@@ -18,18 +18,24 @@ export default function AdminDashboard({onClose,email}:Props){
 
  const current=items.find(x=>x[0]===active)??items[0],Icon=current[2]
  const load=async()=>{
-  if(!supabase)return
+  if(!supabase){setMessage('الاتصال بقاعدة البيانات غير متاح في هذه النسخة.');return}
   setBusy(true);setMessage('')
-  const [p,c,o,s]=await Promise.all([
-   supabase.from('products').select('*').order('created_at',{ascending:false}),
-   supabase.from('categories').select('*').order('sort_order'),
-   supabase.from('orders').select('*').order('created_at',{ascending:false}),
-   supabase.from('store_settings').select('key,value')
-  ])
-  if(p.error||c.error||o.error||s.error)setMessage('تعذر تحميل بعض البيانات. راجعي اتصال قاعدة البيانات وصلاحيات الحساب.')
-  setProducts(p.data||[]);setCategories(c.data||[]);setOrders(o.data||[])
-  setSettings(Object.fromEntries((s.data||[]).map(x=>[x.key,x.value])))
-  setBusy(false)
+  try{
+   const [p,c,o,s]=await Promise.all([
+    supabase.from('products').select('*').order('created_at',{ascending:false}),
+    supabase.from('categories').select('*').order('sort_order'),
+    supabase.from('orders').select('*').order('created_at',{ascending:false}),
+    supabase.from('store_settings').select('key,value')
+   ])
+   const failed:string[]=[]
+   if(p.error)failed.push('المنتجات');else setProducts(p.data||[])
+   if(c.error)failed.push('الأقسام');else setCategories(c.data||[])
+   if(o.error)failed.push('الطلبات');else setOrders(o.data||[])
+   if(s.error)failed.push('الإعدادات');else setSettings(Object.fromEntries((s.data||[]).map(x=>[x.key,x.value])))
+   if(failed.length)setMessage('تعذر تحميل: '+failed.join('، ')+'. احتفظنا بالبيانات السابقة بدل عرض قوائم فارغة.')
+  }catch{
+   setMessage('حدث خطأ أثناء الاتصال. احتفظنا بالبيانات التي كانت معروضة.')
+  }finally{setBusy(false)}
  }
  useEffect(()=>{load()},[])
  const saveProduct=async(e:FormEvent)=>{
