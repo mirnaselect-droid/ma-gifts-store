@@ -933,3 +933,21 @@ footer#contact.compact-store-footer .db-indicator{
 .wallets-instructions a{color:#7a3b55;font-size:12px;font-weight:800}
 .wallets-page>footer{margin-top:0;padding:18px;background:#3d192e;color:#f2dfc8;font:12px 'Playfair Display',serif}
 @media(max-width:600px){.wallets-page>main{margin:18px auto 30px}.wallets-hero{padding:26px 17px}.wallet-card{gap:12px;padding:15px}.wallet-icon{width:41px;height:41px;flex-basis:41px}.wallet-card-copy h2{font-size:16px}.wallet-account-value{font-size:13px}.wallet-call-action{font-size:10px;padding:8px}.wallets-instructions{padding:15px}}
+
+
+/* Luxury Pink Self-Care Box product options */
+.luxury-product-short{font-size:15px!important;line-height:1.9!important;color:#754b60!important;font-weight:700}
+.luxury-product-description{margin:16px 0;padding:17px 19px;border:1px solid #f0d9e2;border-radius:16px;background:linear-gradient(145deg,#fff9fb,#fff)}
+.luxury-product-description h3,.luxury-options h3{margin:0 0 10px;color:#713a55;font-size:16px}
+.luxury-product-description p{margin:7px 0;color:#806b75;font-size:13px;line-height:1.9}
+.luxury-options{margin:17px 0;padding:18px;border:1px solid #efd6e0;border-radius:18px;background:#fff9fb}
+.luxury-option-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:10px 0 18px}
+.luxury-option-grid button,.luxury-quality-list button{display:flex;flex-direction:column;gap:7px;align-items:center;justify-content:center;padding:13px 9px;border:1px solid #ead5de;border-radius:13px;background:#fff;color:#674356;cursor:pointer;text-align:center}
+.luxury-option-grid button.active,.luxury-quality-list button.active{border-color:#a94e78;background:#fcecf3;box-shadow:0 0 0 2px #a94e781c}
+.luxury-option-grid strong{font-size:13px}.luxury-option-grid span{font-size:10px;line-height:1.5;color:#8b6c7c}
+.luxury-quality-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.luxury-quality-list button{flex-direction:row;justify-content:space-between;padding:12px 14px;font-size:12px}
+.luxury-quality-list strong{color:#793b5b}
+.luxury-selected-price{margin:15px 0 0;padding-top:12px;border-top:1px dashed #e8cbd8;color:#6e3652;font-size:17px;font-weight:900}
+.luxury-payment-note{margin:12px 0;padding:13px 15px;border-radius:12px;background:#f8edf1;color:#78445d;font-size:12px;font-weight:800}
+@media(max-width:600px){.luxury-option-grid{grid-template-columns:1fr}.luxury-option-grid button{flex-direction:row;justify-content:space-between}.luxury-quality-list{grid-template-columns:1fr}.luxury-product-description,.luxury-options{padding:14px}}
