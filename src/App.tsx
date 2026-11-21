@@ -144,11 +144,14 @@ function App(){
   const number=trackNumber.trim()
   if(!number){setTrackMessage(isArabic?'اكتبي رقم الطلب أولًا.':'Enter your order number first.');return}
   setTrackLoading(true)
-  const {data,error}=await supabase.from('orders').select('order_number,status,payment_status,total,currency,created_at').eq('order_number',number).maybeSingle()
-  setTrackLoading(false)
-  if(error){setTrackMessage(isArabic?'تعذر الاستعلام عن الطلب حاليًا. حاولي مرة أخرى.':'Could not retrieve this order right now. Please try again.');return}
-  if(!data){setTrackMessage(isArabic?'لم يتم العثور على طلب بهذا الرقم في حسابك. تأكدي من الرقم والحساب المستخدم.':'No order with that number was found in your account. Check the number and signed-in account.');return}
-  setTrackResult(data)
+  try{
+   const {data,error}=await supabase.from('orders').select('order_number,status,payment_status,total,currency,created_at').eq('order_number',number).maybeSingle()
+   if(error){setTrackMessage(isArabic?'تعذر الاستعلام عن الطلب حاليًا. حاولي مرة أخرى.':'Could not retrieve this order right now. Please try again.');return}
+   if(!data){setTrackMessage(isArabic?'لم يتم العثور على طلب بهذا الرقم في حسابك. تأكدي من الرقم والحساب المستخدم.':'No order with that number was found in your account. Check the number and signed-in account.');return}
+   setTrackResult(data)
+  }catch{
+   setTrackMessage(isArabic?'حصلت مشكلة أثناء الاتصال. حاولي مرة أخرى.':'A connection problem occurred. Please try again.')
+  }finally{setTrackLoading(false)}
  }
 
 
