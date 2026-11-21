@@ -6,7 +6,7 @@ import type { ChangeEvent } from 'react'
 type Props={onClose:()=>void;email?:string}
 type Product={id:string;name_ar:string;name_en:string;slug:string;sku?:string|null;price:number;currency:string;stock_quantity:number;category_id:string|null;images:string[];description_ar:string|null;description_en:string|null;is_active:boolean;is_featured:boolean}
 type Category={id:string;name_ar:string;name_en:string;slug:string;image_url:string|null;is_active:boolean;sort_order:number;parent_id:string|null}
-type Order={id:string;order_number:string;customer_name:string;customer_phone:string;status:string;total:number;currency:string;payment_method:string;payment_status:string;created_at:string}
+type Order={id:string;order_number:string;customer_name:string;customer_email?:string|null;customer_phone:string;status:string;total:number;currency:string;payment_method:string;payment_status:string;created_at:string}
 const items=[['dashboard','لوحة المعلومات',LayoutDashboard],['products','المنتجات',Package],['categories','الأقسام',Gift],['orders','الطلبات',ShoppingCart],['customers','العملاء',Users],['analytics','التحليلات',ChartNoAxesCombined],['inventory','المخزون',Warehouse],['payments','المدفوعات',CreditCard],['marketing','التسويق والعروض',Megaphone],['reviews','التقييمات',Star],['messages','الرسائل والدعم',MessageSquare],['appearance','المظهر والهوية',Palette],['settings','إعدادات المتجر',Settings]] as const
 export default function AdminDashboard({onClose,email}:Props){
  const [active,setActive]=useState('dashboard'),[mobileNav,setMobileNav]=useState(false),[period,setPeriod]=useState('الشهر')
