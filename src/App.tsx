@@ -123,7 +123,8 @@ function App(){
     const {data,error}=await supabase.auth.signUp({email:authEmail.trim(),password:authPassword,options:{data:{first_name:authName.trim()}}})
     if(error)throw error
     if(data.user && data.session){
-     await supabase.from('profiles').upsert({id:data.user.id,first_name:authName.trim()},{onConflict:'id'})
+     const {error:profileError}=await supabase.from('profiles').upsert({id:data.user.id,first_name:authName.trim()},{onConflict:'id'})
+     if(profileError){setAuthMessage(isArabic?'تم إنشاء الحساب، لكن تعذر حفظ بيانات الملف الشخصي. يمكنك تسجيل الدخول، وسنراجع صلاحيات الملف الشخصي.':'Your account was created, but profile details could not be saved. You can still sign in; profile permissions need review.');return}
      setAuthMessage(isArabic?'تم إنشاء الحساب بنجاح.':'Your account has been created.')
      setAuthOpen(false)
     }else setAuthMessage(isArabic?'راجعي بريدك الإلكتروني لتأكيد الحساب.':'Check your email to confirm your account.')
