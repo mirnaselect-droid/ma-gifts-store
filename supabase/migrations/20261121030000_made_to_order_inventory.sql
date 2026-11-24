@@ -28,6 +28,9 @@ declare
   v_item jsonb;
   v_product_id uuid;
   v_quantity integer;
+  v_quality text;
+  v_quality_option jsonb;
+  v_unit_price numeric;
   v_line_total numeric;
   v_shipping_fee numeric := 0;
 begin
@@ -56,13 +59,14 @@ begin
     begin
       v_product_id := coalesce(v_item->>'product_id', v_item->>'id')::uuid;
       v_quantity := coalesce(v_item->>'quantity', v_item->>'qty')::integer;
+      v_quality := nullif(trim(coalesce(v_item->>'quality','')), '');
     exception when others then
       raise exception 'INVALID_CART_ITEM';
     end;
     if v_product_id is null then raise exception 'INVALID_CART_ITEM'; end if;
     if v_quantity is null or v_quantity < 1 or v_quantity > 20 then raise exception 'INVALID_QUANTITY'; end if;
 
-    select id, name_ar, price, currency, stock_quantity, images, track_inventory
+    select id, name_ar, price, currency, stock_quantity, images, track_inventory, translations
       into v_product
       from public.products
       where id = v_product_id and is_active = true
@@ -78,7 +82,17 @@ begin
       raise exception 'MIXED_CURRENCIES_NOT_SUPPORTED';
     end if;
 
-    v_line_total := v_product.price * v_quantity;
+    v_unit_price := v_product.price;
+    if v_quality is not null then
+      v_quality_option := coalesce(v_product.translations->'quality_options'->v_quality, '{}'::jsonb);
+      if coalesce((v_quality_option->>'enabled')::boolean, false) is not true
+        or coalesce((v_quality_option->>'min')::numeric, 0) <= 0
+        or coalesce((v_quality_option->>'max')::numeric, 0) < coalesce((v_quality_option->>'min')::numeric, 0) then
+        raise exception 'INVALID_PRODUCT_QUALITY';
+      end if;
+      v_unit_price := (v_quality_option->>'min')::numeric;
+    end if;
+    v_line_total := v_unit_price * v_quantity;
     v_subtotal := v_subtotal + v_line_total;
 
     if coalesce(v_product.track_inventory, false) then
@@ -90,8 +104,8 @@ begin
     insert into public.order_items (
       order_id, product_id, product_name, product_image, unit_price, quantity, line_total
     ) values (
-      v_order_id, v_product.id, v_product.name_ar, v_product.images[1],
-      v_product.price, v_quantity, v_line_total
+      v_order_id, v_product.id, v_product.name_ar || case when v_quality is null then '' else ' · ' || v_quality end, v_product.images[1],
+      v_unit_price, v_quantity, v_line_total
     );
   end loop;
 
