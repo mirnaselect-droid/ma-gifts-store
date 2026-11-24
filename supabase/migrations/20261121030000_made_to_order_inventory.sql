@@ -33,6 +33,8 @@ declare
   v_unit_price numeric;
   v_line_total numeric;
   v_shipping_fee numeric := 0;
+  v_shipping_config jsonb;
+  v_governorate text;
 begin
   if p_user_id is null then raise exception 'AUTH_REQUIRED'; end if;
   if coalesce(length(trim(p_customer_name)),0) < 2 or length(p_customer_name) > 160 then raise exception 'INVALID_CUSTOMER_NAME'; end if;
@@ -43,6 +45,19 @@ begin
   if p_payment_method not in ('wallets','instapay','bank_cards','bank_transfer') then raise exception 'INVALID_PAYMENT_METHOD'; end if;
   if jsonb_typeof(p_items) <> 'array' or jsonb_array_length(p_items) = 0 or jsonb_array_length(p_items) > 50 then raise exception 'INVALID_CART'; end if;
 
+  select value into v_shipping_config
+  from public.store_settings
+  where key = 'shipping';
+
+  v_governorate := btrim(split_part(p_city, ' - ', 1));
+  if coalesce((v_shipping_config->>'configured')::boolean, false) is not true then
+    raise exception 'SHIPPING_NOT_CONFIGURED';
+  end if;
+  v_shipping_fee := nullif(v_shipping_config->'fees'->>v_governorate, '')::numeric;
+  if v_shipping_fee is null or v_shipping_fee < 65 or v_shipping_fee > 200 then
+    raise exception 'INVALID_SHIPPING_GOVERNORATE';
+  end if;
+
   insert into public.orders (
     user_id, status, customer_name, customer_email, customer_phone,
     country_code, city, shipping_address, notes, subtotal, shipping_fee,
@@ -50,7 +65,7 @@ begin
   ) values (
     p_user_id, 'pending', trim(p_customer_name), nullif(trim(p_customer_email), ''),
     trim(p_customer_phone), trim(p_country), trim(p_city), trim(p_shipping_address),
-    nullif(left(coalesce(p_notes,''),1000),''), 0, 0, 0, 'EGP',
+    nullif(left(coalesce(p_notes,''),1000),''), 0, v_shipping_fee, v_shipping_fee, 'EGP',
     p_payment_method, 'unpaid'
   ) returning id, order_number into v_order_id, v_order_number;
 
