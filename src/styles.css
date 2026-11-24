@@ -963,3 +963,13 @@ footer#contact.compact-store-footer .db-indicator{
 .ma-quality-row .ma-quality-toggle{display:flex;align-items:center;gap:9px;min-height:40px;color:#55283f}
 .ma-quality-toggle input{width:17px;height:17px;accent-color:#713d56}
 @media(max-width:600px){.ma-quality-row{grid-template-columns:1fr 1fr;gap:9px}.ma-quality-row .ma-quality-toggle{grid-column:1/-1}}
+
+/* Customer product quality selector */
+.ma-store-quality{display:grid;gap:12px;margin:18px 0;padding:16px;border:1px solid #ead9cf;border-radius:16px;background:#fffaf6}
+.ma-store-quality h3{margin:0;color:#54283e;font-size:16px}
+.ma-store-quality-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.ma-store-quality-options button{display:grid;gap:6px;padding:12px;border:1px solid #e7d8ce;border-radius:12px;background:#fff;color:#573449;text-align:start;cursor:pointer}
+.ma-store-quality-options button.active{border:2px solid #75435c;background:#f8edf2}
+.ma-store-quality-options button span{font-size:12px;color:#866d78}
+.ma-store-quality>small{color:#806d76;line-height:1.7}
+@media(max-width:480px){.ma-store-quality-options{grid-template-columns:1fr}}
