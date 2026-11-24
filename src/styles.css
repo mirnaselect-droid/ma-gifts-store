@@ -951,3 +951,15 @@ footer#contact.compact-store-footer .db-indicator{
 .luxury-selected-price{margin:15px 0 0;padding-top:12px;border-top:1px dashed #e8cbd8;color:#6e3652;font-size:17px;font-weight:900}
 .luxury-payment-note{margin:12px 0;padding:13px 15px;border-radius:12px;background:#f8edf1;color:#78445d;font-size:12px;font-weight:800}
 @media(max-width:600px){.luxury-option-grid{grid-template-columns:1fr}.luxury-option-grid button{flex-direction:row;justify-content:space-between}.luxury-quality-list{grid-template-columns:1fr}.luxury-product-description,.luxury-options{padding:14px}}
+
+/* Per-product quality and editable price ranges in owner dashboard */
+.ma-quality-editor{margin:18px 0;padding:18px;border:1px solid #ead9cf;border-radius:16px;background:#fffaf6}
+.ma-quality-editor h4{margin:0 0 6px;color:#54283e;font-size:16px}
+.ma-quality-editor>p{margin:0 0 14px;color:#8a7378;font-size:12px;line-height:1.8}
+.ma-quality-row{display:grid;grid-template-columns:minmax(110px,.8fr) 1fr 1fr;gap:12px;align-items:end;padding:12px 0;border-top:1px solid #f0e5dd}
+.ma-quality-row label{display:grid;gap:6px;color:#715765;font-size:12px;font-weight:700}
+.ma-quality-row input[type=number]{width:100%;min-width:0;height:40px;padding:8px 10px;border:1px solid #e6d8cf;border-radius:9px;background:#fff;color:#4b263b}
+.ma-quality-row input:disabled{background:#f3efec;opacity:.6}
+.ma-quality-row .ma-quality-toggle{display:flex;align-items:center;gap:9px;min-height:40px;color:#55283f}
+.ma-quality-toggle input{width:17px;height:17px;accent-color:#713d56}
+@media(max-width:600px){.ma-quality-row{grid-template-columns:1fr 1fr;gap:9px}.ma-quality-row .ma-quality-toggle{grid-column:1/-1}}
