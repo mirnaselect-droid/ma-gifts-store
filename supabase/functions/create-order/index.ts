@@ -42,6 +42,7 @@ Deno.serve(async (req: Request) => {
     const items = rawItems.map((item: Record<string, unknown>) => ({
       product_id: item.product_id ?? item.id,
       quantity: Number(item.quantity ?? item.qty),
+      quality: typeof item.quality === "string" ? item.quality : null,
     }));
     if (items.some((item: { product_id: unknown; quantity: unknown }) =>
       typeof item.product_id !== "string" ||
