@@ -35,6 +35,7 @@ declare
   v_shipping_fee numeric := 0;
   v_shipping_config jsonb;
   v_governorate text;
+  v_free_shipping boolean := true;
 begin
   if p_user_id is null then raise exception 'AUTH_REQUIRED'; end if;
   if coalesce(length(trim(p_customer_name)),0) < 2 or length(p_customer_name) > 160 then raise exception 'INVALID_CUSTOMER_NAME'; end if;
@@ -107,6 +108,10 @@ begin
       end if;
       v_unit_price := (v_quality_option->>'min')::numeric;
     end if;
+    if lower(coalesce(v_quality,'')) not in ('original','mirror') then
+      v_free_shipping := false;
+    end if;
+
     v_line_total := v_unit_price * v_quantity;
     v_subtotal := v_subtotal + v_line_total;
 
@@ -123,6 +128,10 @@ begin
       v_unit_price, v_quantity, v_line_total
     );
   end loop;
+
+  if v_free_shipping then
+    v_shipping_fee := 0;
+  end if;
 
   update public.orders
     set subtotal = v_subtotal, shipping_fee = v_shipping_fee,
