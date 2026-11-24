@@ -155,8 +155,12 @@ function App(){
     items:cartItems.map(item=>({product_id:String(item.product.id),quantity:Number(item.quantity)}))
    }})
    if(error){
-    let code=''
-    try{const response=(error as any).context as Response|undefined;if(response){const payload=await response.clone().json();code=String(payload?.error||'')}}catch{}
+    let code='',detail=''
+    try{const response=(error as any).context as Response|undefined;if(response){const payload=await response.clone().json();code=String(payload?.error||'');detail=String(payload?.detail||'')}}catch{}
+    if(code==='INVALID_ORDER'){
+     const messages:Record<string,string>={INVALID_CUSTOMER_NAME:'اكتبي الاسم بالكامل بشكل صحيح.',INVALID_PHONE:'راجعي رقم الهاتف؛ لازم يكون 6 أرقام على الأقل.',INVALID_COUNTRY:'اكتبي اسم الدولة بشكل صحيح.',INVALID_CITY:'اكتبي المحافظة والمدينة بشكل صحيح.',INVALID_ADDRESS:'اكتبي العنوان بالتفصيل.',INVALID_PAYMENT_METHOD:'اختاري طريقة دفع صحيحة.',INVALID_CART:'السلة غير صالحة. حدّثي الصفحة وحاولي مرة أخرى.',INVALID_CART_ITEM:'فيه منتج أو كمية غير صالحة في السلة.',INVALID_QUANTITY:'راجعي كمية المنتج المطلوبة.',MIXED_CURRENCIES_NOT_SUPPORTED:'لا يمكن جمع منتجات بعملات مختلفة في طلب واحد.'}
+     throw new Error(messages[detail]||'بيانات الطلب غير مكتملة أو غير صحيحة ('+detail+'). راجعي بيانات الشحن وحاولي مرة أخرى.')
+    }
     if(code==='OUT_OF_STOCK')throw new Error(isArabic?'الكمية المطلوبة غير متاحة حاليًا. راجعي المخزون أو قللي الكمية.':'Requested quantity is not currently available. Please check stock or reduce the quantity.')
     if(code==='PRODUCT_UNAVAILABLE')throw new Error(isArabic?'أحد المنتجات لم يعد متاحًا. حدّثي السلة وحاولي مرة أخرى.':'A product is no longer available. Refresh your cart and try again.')
     if(code==='AUTH_REQUIRED')throw new Error(isArabic?'انتهت جلسة الدخول. سجّلي الدخول مرة أخرى.':'Your session expired. Please sign in again.')
