@@ -117,7 +117,7 @@ function App(){
  const cartCount=cartItems.reduce((sum,item)=>sum+item.quantity,0)
  const accountName=String(session?.user?.user_metadata?.first_name||session?.user?.user_metadata?.full_name||session?.user?.email?.split('@')[0]||'').trim()
  const addToCart=(product:Product)=>setCartItems(items=>{const key=product.id+'::'+(product.selected_quality||'');const found=items.find(item=>item.product.id+'::'+(item.product.selected_quality||'')===key);return found?items.map(item=>item.product.id+'::'+(item.product.selected_quality||'')===key?{...item,quantity:item.quantity+1}:item):[...items,{product,quantity:1}]})
- const changeCartQuantity=(productId:string,delta:number)=>setCartItems(items=>items.map(item=>item.product.id===productId?{...item,quantity:item.quantity+delta}:item).filter(item=>item.quantity>0))
+ const changeCartQuantity=(productId:string,delta:number,quality?:string)=>setCartItems(items=>items.map(item=>item.product.id===productId&&(item.product.selected_quality||'')===(quality||'')?{...item,quantity:item.quantity+delta}:item).filter(item=>item.quantity>0))
 
  const submitAuth=async(e:FormEvent)=>{
   e.preventDefault()
@@ -243,12 +243,12 @@ function App(){
   {cartOpen&&<div className="drawer-backdrop cart-backdrop" onClick={()=>setCartOpen(false)}><aside className="cart-panel" onClick={e=>e.stopPropagation()}>
    <div className="cart-heading"><h2>{isArabic?'سلة المشتريات':'Your shopping bag'} ({cartCount})</h2><button className="icon-btn" onClick={()=>setCartOpen(false)} aria-label="Close"><X/></button></div>
    {cartItems.length===0?<div className="cart-empty"><ShoppingBag/><p>{isArabic?'السلة لسه فاضية':'Your bag is empty'}</p></div>:<>
-    <div className="cart-lines">{cartItems.map(item=><article className="cart-line" key={item.product.id}>
+    <div className="cart-lines">{cartItems.map(item=><article className="cart-line" key={item.product.id+'-'+(item.product.selected_quality||'')}>
      {item.product.images?.[0]?<img src={item.product.images[0]} alt=""/>:<div className="cart-thumb"><Gift/></div>}
      <div className="cart-line-info"><strong>{productLabel(isArabic?item.product.name_ar:item.product.name_en)}</strong><span>{money(item.product.price,item.product.currency)}</span>
-      <div className="quantity-control"><button onClick={()=>changeCartQuantity(item.product.id,-1)} aria-label="Decrease quantity">−</button><b>{item.quantity}</b><button onClick={()=>changeCartQuantity(item.product.id,1)} aria-label="Increase quantity">+</button></div>
+      <div className="quantity-control"><button onClick={()=>changeCartQuantity(item.product.id,-1,item.product.selected_quality)} aria-label="Decrease quantity">−</button><b>{item.quantity}</b><button onClick={()=>changeCartQuantity(item.product.id,1,item.product.selected_quality)} aria-label="Increase quantity">+</button></div>
      </div>
-     <button className="remove-line" onClick={()=>setCartItems(items=>items.filter(x=>x.product.id!==item.product.id))}>{isArabic?'حذف':'Remove'}</button>
+     <button className="remove-line" onClick={()=>setCartItems(items=>items.filter(x=>!(x.product.id===item.product.id&&(x.product.selected_quality||'')===(item.product.selected_quality||''))))}>{isArabic?'حذف':'Remove'}</button>
     </article>)}</div>
     <p className="cart-note">{isArabic?'راجع المنتجات والكميات قبل الانتقال لإتمام الطلب.':'Review your items and quantities before checkout.'}</p>
     <button className="add-btn cart-checkout" onClick={()=>{setCartOpen(false);if(!session){setAuthOpen(true)}else{setCheckoutMessage('');setCheckoutOpen(true)}}}>{isArabic?'متابعة لإتمام الطلب':'Continue to checkout'}</button>
