@@ -1,9 +1,9 @@
 name: Build storefront
 on:
   push:
-    branches: [main, feature/customer-auth-cart]
+    branches: [main, preview/supabase-config, feature/customer-auth-cart, fix/made-to-order-checkout]
   pull_request:
-    branches: [main]
+    branches: [main, preview/supabase-config]
 permissions:
   contents: read
 jobs:
